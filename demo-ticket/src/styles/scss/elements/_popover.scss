@@ -1,0 +1,48 @@
+@use "../variables/color";
+
+.search_result_popover {
+  max-height: 50rem;
+  height: fit-content;
+  width: 100%;
+}
+
+.search_result_popover_title {
+  // border-bottom: 1px solid #e8eef7;
+  display: none;
+}
+
+.search_result_popover_title p {
+  margin: 0;
+  padding-bottom: 5px;
+}
+
+.search_result_popover_content {
+  max-height: 50rem;
+  width: 46rem;
+  padding: 0rem 1rem 1rem 0rem;
+}
+
+.search_result_popover_content .ant-tabs-nav-list .ant-tabs-tab {
+  padding: 0 0 0.4rem 0;
+}
+
+.search_result_popover_content .ant-tabs .ant-tabs-tab + .ant-tabs-tab {
+  margin-left: 1rem;
+}
+
+.search_result_popover_content .ant-tabs-tab-btn {
+  font-weight: 600;
+  color: var(--color-black-brown);
+}
+
+.search_found:hover {
+  background-color: #c6e4ff;
+  padding: 1rem;
+  cursor: pointer;
+}
+
+.search-result-title {
+  font-weight: 600;
+  font-size: 0.8rem;
+  color: var(--color-black-brown);
+}
