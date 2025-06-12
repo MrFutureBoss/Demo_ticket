@@ -128,3 +128,10 @@ header {
     margin: 0;
   }
 }
+
+/* Desktop: 1025px trở lên */
+@media (min-width: 1025px) {
+   .header-container {
+    height: 60px;
+   }
+}

@@ -46,3 +46,12 @@
   font-size: 0.8rem;
   color: var(--color-black-brown);
 }
+
+/* Desktop: 1025px trở lên */
+@media (min-width: 1537px) {
+  .search_result_popover_content {
+    max-height: 50rem;
+    width: 80rem;
+    padding: 0rem 1rem 1rem 0rem;
+  }
+}
