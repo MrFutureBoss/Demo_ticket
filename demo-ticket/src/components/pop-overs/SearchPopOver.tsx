@@ -2,13 +2,13 @@
 import { Popover, Tabs } from "antd";
 import React from "react";
 import { TabsProps } from "antd";
-import HeaderSearchResult from "../list/HeaderSearchResult";
+import HeaderSearchResultContent from "@/layouts/search/HeaderSearchResultMainContent";
 
 const items: TabsProps["items"] = [
   {
     key: "1",
     label: "Jira",
-    children: <HeaderSearchResult />,
+    children: <HeaderSearchResultContent />,
   },
   {
     key: "2",

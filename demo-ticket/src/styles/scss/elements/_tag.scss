@@ -1,0 +1,25 @@
+.filter-tag-container {
+  display: flex;
+  width: fit-content;
+  gap: 5px;
+  flex-wrap: wrap;
+  .ant-tag {
+    border-radius: 15px !important;
+    padding: 2px 5px !important;
+  }
+  .ant-tag:hover {
+    cursor: pointer;
+  }
+  .ant-tag.active:nth-child(1) {
+    border-color: var(--color-link-active);
+    background-color: var(--color-bg-active) !important;
+  }
+
+  .ant-tag.active:nth-child(1) p:nth-child(1) {
+    color: var(--color-link-active);
+  }
+}
+
+.filter-checkbox {
+
+}

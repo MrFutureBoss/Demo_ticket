@@ -4,7 +4,7 @@ Variables style
 @use "./variables/_color.scss";
 @use "./variables/_flex-box.scss";
 @use "./variables/_border.scss";
-
+@use "./variables/_bg.scss";
 
 /********************************
 Header style
@@ -17,5 +17,7 @@ Header style
 Elements style
 *********************************/
 @use "./elements/_popover.scss";
+@use "./elements/_text.scss";
+@use "./elements/_tag.scss";
 
 
