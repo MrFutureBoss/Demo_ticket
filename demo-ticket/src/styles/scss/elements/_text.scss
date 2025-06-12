@@ -8,4 +8,22 @@
     font-weight: 600;
     color: var(--color-black-brown);
 }
+
+.action-bold-style{
+    margin: 0;
+    font-weight: 600;
+    color: var(--color-link-active);
+}
+
+.action-bold-style:hover{
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.description-normal-style{
+    margin: 0;
+    font-weight: 400;
+    font-size: 0.8rem;
+    color: var(--color-black-brown);
+}
     

@@ -12,12 +12,10 @@ Header style
 @use "./headers/_header.scss";
 
 
-
 /********************************
 Elements style
 *********************************/
 @use "./elements/_popover.scss";
 @use "./elements/_text.scss";
 @use "./elements/_tag.scss";
-
-
+@use "./elements/image.scss";
