@@ -24,6 +24,11 @@ body {
     border-radius: 6px;
   }
 
+  &:active {
+    border: 2px solid var(--color-link-active);
+    border-radius: 6px;
+  }
+
   .sidebar-item-icon {
     border-radius: 4px;
     @include flex-box.flex-center;
@@ -42,5 +47,43 @@ body {
     @include flex-box.flex-center;
     margin-left: auto;
     color: var(--color-body);
+  }
+}
+
+.sidebar-item-active {
+  border: 2px solid var(--color-link-active);
+  background-color: var(--color-bg-active);
+  border-radius: 6px;
+
+  .sidebar-item-text p {
+    color: var(--color-link-active);
+  }
+
+  .sidebar-item-icon {
+    color: var(--color-link-active);
+  }
+}
+
+.sidebar-dropdown-content {
+  margin-left: 20px;
+  .sidebar-dropdown-item {
+    @include flex-box.flex-align-center;
+    gap: 10px;
+    margin: 4px;
+    padding: 2px 4px 2px 0px;
+    width: 100%;
+  }
+
+  .sidebar-dropdown-item:hover {
+    cursor: pointer;
+    background-color: var(--color-white-gray);
+    border-radius: 6px;
+  }
+
+  .sidebar-dropdown-item:hover {
+    padding: 2px 4px;
+    cursor: pointer;
+    background-color: var(--color-white-gray);
+    border-radius: 6px;
   }
 }

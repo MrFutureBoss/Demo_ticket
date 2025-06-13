@@ -19,7 +19,7 @@ import { IoIosMore } from "react-icons/io";
 import { RiSoundModuleLine } from "react-icons/ri";
 import { BsBarChart } from "react-icons/bs";
 import { VscFeedback } from "react-icons/vsc";
-
+import { IoIosArrowDown } from "react-icons/io";
 
 export default function Icons({ name }: { name: string }) {
   function renderIcon() {
@@ -36,6 +36,8 @@ export default function Icons({ name }: { name: string }) {
         return <TiFolderOpen />;
       case "arrow-right":
         return <IoIosArrowForward />;
+      case "arrow-down":
+        return <IoIosArrowDown />;
       case "guide":
         return <GrHelpBook />;
       case "reports":
