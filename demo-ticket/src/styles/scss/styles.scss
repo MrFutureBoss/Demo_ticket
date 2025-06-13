@@ -5,11 +5,13 @@ Variables style
 @use "./variables/_flex-box.scss";
 @use "./variables/_border.scss";
 @use "./variables/_bg.scss";
+@use "./variables/_position.scss";
 
 /********************************
-Header style
+Layout style
 *********************************/
 @use "./headers/_header.scss";
+@use "./body/body.scss";
 
 
 /********************************
@@ -19,3 +21,4 @@ Elements style
 @use "./elements/_text.scss";
 @use "./elements/_tag.scss";
 @use "./elements/image.scss";
+@use "./elements/_button.scss";

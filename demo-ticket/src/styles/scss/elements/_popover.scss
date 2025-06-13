@@ -1,5 +1,5 @@
 @use "../variables/color";
-
+@use "../variables/flex-box";
 .search_result_popover {
   max-height: 50rem;
   height: fit-content;
@@ -84,6 +84,9 @@
 
 .info_popover_content {
   width: 20rem;
+  .info_popover_content_header {
+     @include flex-box.flex-align-center;
+  }
 }
 
 .info_popover {

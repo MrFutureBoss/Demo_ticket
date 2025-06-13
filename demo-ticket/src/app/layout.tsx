@@ -1,13 +1,16 @@
 import type { Metadata } from "next";
 import { ReduxProvider } from "./providers";
 import { AntdRegistry } from "@ant-design/nextjs-registry";
+import "@ant-design/v5-patch-for-react-19";
 import Header from "@/layouts/common/Header";
+import { SplitterProvider } from "@/contexts/SplitterContext";
 
 // ========= Plugins SCSS =========
 import "antd/dist/reset.css";
 import "../styles/scss/styles.scss";
 // ========= Plugins CSS =========
 import "./globals.css";
+import Body from "@/layouts/common/Body";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -22,12 +25,18 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body suppressHydrationWarning>
-        <AntdRegistry>
-          <ReduxProvider>
-            <header><Header/></header>
-            <main>{children}</main>
-          </ReduxProvider>
-        </AntdRegistry>
+        <SplitterProvider>
+          <AntdRegistry>
+            <ReduxProvider>
+              <header>
+                <Header />
+              </header>
+              <main>
+                <Body>{children}</Body>
+              </main>
+            </ReduxProvider>
+          </AntdRegistry>
+        </SplitterProvider>
       </body>
     </html>
   );

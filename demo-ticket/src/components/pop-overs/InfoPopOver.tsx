@@ -36,7 +36,7 @@ const title = (
         </p>
       </div>
     </div>
-  ); 
+  );
 };
 
 const content = (item: {
@@ -52,10 +52,31 @@ const content = (item: {
   reporterImage: string;
   status: string;
   statusImage: string;
+  note: string;
+  floor: string;
 }) => {
   return (
     <div className="info_popover_content">
-      <div className="info_popover_content_header">
+      <div className="info_popover_content_header mt-2">
+        <p className="paragraph-bold-style">Note:&nbsp;</p>
+        <p className="description-italic-style">{item.note}</p>
+      </div>
+      <div className="info_popover_content_body mt-2">
+        <div className="d-flex align-items-center justify-content-between">
+          <div className="d-flex align-items-center gap-2">
+            <p className="paragraph-bold-style"> Location:</p>
+            <p className="action-bold-style d-flex align-items-center">
+              <Image
+                src={item.officeImage}
+                width={16}
+                height={16}
+                alt="Office"
+                className=""
+              />
+              &nbsp;{item.office}, floor {item.floor}
+            </p>
+          </div>
+        </div>
         <p className="paragraph-bold-style d-flex align-items-center mt-2">
           Assignee: &nbsp;
           <Image
@@ -79,7 +100,7 @@ const content = (item: {
           &nbsp;{item.reporter}
         </p>
       </div>
-      <div className="info_popover_content_body d-flex justify-content-end">
+      <div className="info_popover_content_footer d-flex justify-content-end">
         <p className="description-normal-style">
           Updated {item.updatedAt}d ago
         </p>
@@ -102,6 +123,8 @@ interface InfoPopOverProps {
     reporterImage: string;
     status: string;
     statusImage: string;
+    note: string;
+    floor: string;
   };
   children: React.ReactNode;
   image: string;

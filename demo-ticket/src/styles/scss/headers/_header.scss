@@ -64,11 +64,16 @@ header {
     font-size: 1.2rem;
     padding: 8px;
     border-radius: 5px;
-  }
-
-  .header-icon:hover {
-    cursor: pointer;
-    background-color: var(--color-white-gray);
+    &:hover {
+      cursor: pointer;
+      background-color: var(--color-white-gray);
+    }
+    &:active {
+      border: 2px solid var(--color-link-active);
+    }
+    &:focus {
+      border: 2px solid var(--color-link-active);
+    }
   }
 
   .header-avatar {

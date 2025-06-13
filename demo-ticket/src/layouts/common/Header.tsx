@@ -1,17 +1,23 @@
+"use client";
+
 import React from "react";
 import Icons from "../../components/icons/Icons";
 import { Button } from "antd";
 import SearchPopOver from "@/components/pop-overs/SearchPopOver";
 import logo from "../../assets/images/jira-logo.jpg";
 import Image from "next/image";
+import { useSplitter } from "@/contexts/SplitterContext";
+
 export default function Header() {
+  const { isLeftVisible, toggleLeftVisibility } = useSplitter();
+  
   return (
     <div className="container-fluid">
       <div className="row header-container align-items-center">
         <div className="col-4 col-lg-2 header-left">
           <div className="d-none d-lg-flex">
-            <div className="header-icon">
-              <Icons name="expand" />
+            <div className="header-icon" onClick={toggleLeftVisibility}>
+              <Icons name={isLeftVisible ? "expand" : "collapse"} />
             </div>
             <div className="header-icon">
               <Icons name="apps" />
@@ -27,8 +33,8 @@ export default function Header() {
             </div>
           </div>
           <div className="d-flex d-lg-none">
-            <div className="header-icon">
-              <Icons name="expand" />
+            <div className="header-icon" onClick={toggleLeftVisibility}>
+              <Icons name={isLeftVisible ? "expand" : "collapse"} />
             </div>
             <div className="header-icon">
               <Icons name="apps" />

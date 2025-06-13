@@ -4,7 +4,12 @@ import React from "react";
 import InfoPopOver from "../pop-overs/InfoPopOver";
 
 interface ResultListsProps {
-  data: { title: string; pcId: string, office: string, officeImage: string, updatedAt: number, assignee: string, assigneeImage: string, reporter: string, reporterImage: string, status: string, statusImage: string }[];
+  data: { title: string; pcId: string,
+     office: string, officeImage: string, 
+     updatedAt: number, assignee: string, 
+     assigneeImage: string, reporter: string, 
+     reporterImage: string, status: string, 
+     statusImage: string, note: string, floor: string }[];
   images: string[];
   rounded: boolean;
 }
@@ -32,7 +37,9 @@ export default function ResultLists({
             reporter: item.reporter,
             reporterImage: item.reporterImage,
             status: item.status,
-            statusImage: item.statusImage
+            statusImage: item.statusImage,
+            floor: item.floor,
+            note: item.note
           }} image={images[index]}>
             <List.Item>
               <List.Item.Meta
