@@ -3,6 +3,12 @@
   font-weight: 400;
   color: var(--color-black-brown);
 }
+
+.paragraph-no-style {
+  margin: 0;
+  font-weight: 400;
+}
+
 .paragraph-bold-style {
   margin: 0;
   font-weight: 600;
@@ -40,3 +46,19 @@
   font-size: 0.8rem;
   color: var(--color-body);
 }
+
+.title-small{
+  font-size: 1rem;
+  font-weight: 400;
+  color: var(--color-black-brown);
+  margin: 0;
+}
+
+.title-large{
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: var(--color-black-brown);
+  margin: 0;
+}
+
+

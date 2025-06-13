@@ -16,20 +16,35 @@ import { GrHelpBook } from "react-icons/gr";
 import { IoIosArrowForward } from "react-icons/io";
 import { TiFolderOpen } from "react-icons/ti";
 import { IoIosMore } from "react-icons/io";
-import { RiSoundModuleLine } from "react-icons/ri";
+import { RiEqualizer2Line } from "react-icons/ri";
 import { BsBarChart } from "react-icons/bs";
 import { VscFeedback } from "react-icons/vsc";
 import { IoIosArrowDown } from "react-icons/io";
+import { RiGlobalLine } from "react-icons/ri";
+import { HiOutlineViewBoards } from "react-icons/hi";
+import { CiViewList } from "react-icons/ci";
+import { MdOutlineCalendarToday } from "react-icons/md";
+import { BsReverseLayoutTextWindowReverse } from "react-icons/bs";
 
 export default function Icons({ name }: { name: string }) {
   function renderIcon() {
     switch (name) {
+      case "form":
+        return <BsReverseLayoutTextWindowReverse />;
+      case "calendar":
+        return <MdOutlineCalendarToday />;
+      case "list":
+        return <CiViewList />;
+      case "board":
+        return <HiOutlineViewBoards />;
+      case "summary":
+        return <RiGlobalLine />;
       case "feedback":
         return <VscFeedback />;
       case "telecom":
         return <BsBarChart />;
       case "customize":
-        return <RiSoundModuleLine />;
+        return <RiEqualizer2Line />;
       case "more":
         return <IoIosMore />;
       case "proposes":

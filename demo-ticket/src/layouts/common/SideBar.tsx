@@ -7,20 +7,20 @@ import { usePathname } from "next/navigation";
 import Image from "next/image";
 
 const listNavigation = [
-  {
+ {
     id: 1,
-    name: "Dashboard",
-    path: "/",
-    icon: "dashboard",
-    isInSidebar: true,
-  },
-  {
-    id: 2,
     name: "Overview",
-    path: "/overview",
+    path: "/",
     icon: "overview",
     isInSidebar: true,
     isDropdown: false,
+  },
+  {
+    id: 2,
+    name: "Dashboard",
+    path: "/dashboard",
+    icon: "dashboard",
+    isInSidebar: true,
   },
   {
     id: 3,

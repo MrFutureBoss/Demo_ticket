@@ -1,0 +1,36 @@
+.overview-content {
+  height: 100%;
+  width: 100%;
+  background-color: var(--color-white);
+}
+
+.overview-header {
+  margin-top: 15px;
+}
+
+.overview-header-title {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 0 20px;
+}
+
+.overview-header-tabs {
+    margin-top: 20px;
+  .ant-tabs-tab{
+    padding: 0 !important;
+    margin-left: 20px !important;
+    margin-right: 20px !important;
+  }
+  .overview-tab-label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 600;
+    padding-bottom: 5px;
+    
+    svg {
+      font-size: 1.4rem;
+    }
+  }
+}
