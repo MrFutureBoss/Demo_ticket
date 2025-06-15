@@ -18,14 +18,14 @@ import "./TicketTable.css";
 import Status from "../icons/Status";
 import type { ColumnType, ColumnGroupType } from "antd/es/table";
 
-interface ResizableColumnType<RecordType> extends ColumnType<RecordType> {
+interface ResizableColumnType<RecordType> extends Omit<ColumnType<RecordType>, 'width'> {
   width?: number;
   minWidth?: number;
   maxWidth?: number;
 }
 
 interface ResizableColumnGroupType<RecordType>
-  extends ColumnGroupType<RecordType> {
+  extends Omit<ColumnGroupType<RecordType>, 'width'> {
   width?: number;
   minWidth?: number;
   maxWidth?: number;
@@ -277,7 +277,7 @@ const TicketTable: React.FC = () => {
       maxWidth: column.maxWidth,
       onResize: handleResize(index),
     }),
-  }));
+  })) as ColumnType<DataType>[];
 
   const onDragEnd = ({ active, over }: DragEndEvent) => {
     if (active.id !== over?.id) {
