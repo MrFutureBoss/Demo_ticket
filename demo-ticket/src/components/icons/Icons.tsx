@@ -22,7 +22,7 @@ import { VscFeedback } from "react-icons/vsc";
 import { IoIosArrowDown } from "react-icons/io";
 import { RiGlobalLine } from "react-icons/ri";
 import { HiOutlineViewBoards } from "react-icons/hi";
-import { CiViewList } from "react-icons/ci";
+import { LuLayoutList } from "react-icons/lu";
 import { MdOutlineCalendarToday } from "react-icons/md";
 import { BsReverseLayoutTextWindowReverse } from "react-icons/bs";
 
@@ -34,7 +34,7 @@ export default function Icons({ name }: { name: string }) {
       case "calendar":
         return <MdOutlineCalendarToday />;
       case "list":
-        return <CiViewList />;
+        return <LuLayoutList />;
       case "board":
         return <HiOutlineViewBoards />;
       case "summary":
