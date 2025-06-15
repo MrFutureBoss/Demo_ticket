@@ -24,7 +24,7 @@ export default function Body({ children }: BodyProps) {
           className=""
           style={{ boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)" }}
         >
-          <Splitter.Panel defaultSize="23%" min="23%" max="40%">
+          <Splitter.Panel defaultSize="15%" min="23%" max="40%">
             <SideBar />
           </Splitter.Panel>
           <Splitter.Panel>{children}</Splitter.Panel>

@@ -1,8 +1,8 @@
 "use client";
-import React, { useContext, useMemo } from "react";
+import React, { useContext, useMemo, useState } from "react";
 import { Table, Button, Space, Tooltip, Checkbox } from "antd";
 import type { TableProps } from "antd/es/table";
-import { HolderOutlined, PlusOutlined } from "@ant-design/icons";
+import { HolderOutlined } from "@ant-design/icons";
 import { DndContext, DragEndEvent } from "@dnd-kit/core";
 import type { SyntheticListenerMap } from "@dnd-kit/core/dist/hooks/utilities";
 import { restrictToVerticalAxis } from "@dnd-kit/modifiers";
@@ -17,6 +17,8 @@ import { Resizable } from "react-resizable";
 import "./TicketTable.css";
 import Status from "../icons/Status";
 import type { ColumnType, ColumnGroupType } from "antd/es/table";
+import { DataType, generateData, defaultCheckedList } from "./dumpApi";
+import ColumnDisplayPopOver from "../pop-overs/ColumnDisplayPopOver";
 
 interface ResizableColumnType<RecordType> extends Omit<ColumnType<RecordType>, 'width'> {
   width?: number;
@@ -34,15 +36,6 @@ interface ResizableColumnGroupType<RecordType>
 type ResizableColumn<RecordType> =
   | ResizableColumnType<RecordType>
   | ResizableColumnGroupType<RecordType>;
-
-interface DataType {
-  key: string;
-  ticketId: string;
-  status: number;
-  assignee: string;
-  reporter: string;
-  description: string;
-}
 
 interface RowContextProps {
   setActivatorNodeRef?: (element: HTMLElement | null) => void;
@@ -63,28 +56,6 @@ const DragHandle: React.FC = () => {
       {...listeners}
     />
   );
-};
-
-const generateData = (): DataType[] => {
-  const data: DataType[] = [];
-  const statuses = [1, 2, 3, 4, 5, 6];
-  const assignees = ["John Doe", "Jane Smith", "Mike Johnson", "Sarah Wilson"];
-  const reporters = ["Alice Brown", "Bob Davis", "Carol Evans", "David Miller"];
-
-  // Shuffle statuses array to ensure random distribution
-  const shuffledStatuses = [...statuses].sort(() => Math.random() - 0.5);
-
-  for (let i = 1; i <= 20; i++) {
-    data.push({
-      key: i.toString(),
-      ticketId: `IT-TIC-${String(i).padStart(5, "0")}`,
-      status: shuffledStatuses[i % statuses.length],
-      assignee: assignees[Math.floor(Math.random() * assignees.length)],
-      reporter: reporters[Math.floor(Math.random() * reporters.length)],
-      description: `This is a sample ticket description ${i} with some additional details about the issue.`,
-    });
-  }
-  return data;
 };
 
 interface RowProps extends React.HTMLAttributes<HTMLTableRowElement> {
@@ -155,15 +126,17 @@ type TableRowSelection<T extends object = object> =
   TableProps<T>["rowSelection"];
 
 const TicketTable: React.FC = () => {
-  const [dataSource, setDataSource] = React.useState<DataType[]>(
-    generateData()
-  );
+  const [dataSource, setDataSource] = React.useState<DataType[]>(generateData());
   const [selectedRowKeys, setSelectedRowKeys] = React.useState<React.Key[]>([]);
-  const [columns, setColumns] = React.useState<ResizableColumn<DataType>[]>([
+  const [checkedList, setCheckedList] = useState<string[]>(defaultCheckedList);
+  const [columnWidths, setColumnWidths] = useState<{ [key: string]: number }>({});
+
+  const getBaseColumns = (): ResizableColumn<DataType>[] => [
     {
       title: "Ticket ID",
       dataIndex: "ticketId",
-      width: 70,
+      key: "ticketId",
+      width: columnWidths["ticketId"] || 70,
       minWidth: 70,
       maxWidth: 70,
       fixed: "left",
@@ -172,9 +145,10 @@ const TicketTable: React.FC = () => {
     {
       title: "Status",
       dataIndex: "status",
-      width: 120,
-      minWidth: 100,
-      maxWidth: 150,
+      key: "status",
+      width: columnWidths["status"] || 90,
+      minWidth: 80,
+      maxWidth: 120,
       filters: [
         { text: "Completed", value: 1 },
         { text: "On Hold", value: 2 },
@@ -187,9 +161,26 @@ const TicketTable: React.FC = () => {
       render: (status) => <Status status={status} />,
     },
     {
+      title: "Title",
+      dataIndex: "title",
+      key: "title",
+      width: columnWidths["title"] || 200,
+      minWidth: 150,
+      maxWidth: 300,
+      ellipsis: {
+        showTitle: false,
+      },
+      render: (title) => (
+        <Tooltip placement="topLeft" title={title}>
+          {title}
+        </Tooltip>
+      ),
+    },
+    {
       title: "Assignee",
       dataIndex: "assignee",
-      width: 150,
+      key: "assignee",
+      width: columnWidths["assignee"] || 150,
       minWidth: 120,
       maxWidth: 250,
       filters: [
@@ -203,7 +194,8 @@ const TicketTable: React.FC = () => {
     {
       title: "Reporter",
       dataIndex: "reporter",
-      width: 150,
+      key: "reporter",
+      width: columnWidths["reporter"] || 150,
       minWidth: 120,
       maxWidth: 250,
       filters: [
@@ -217,7 +209,8 @@ const TicketTable: React.FC = () => {
     {
       title: "Description",
       dataIndex: "description",
-      width: 300,
+      key: "description",
+      width: columnWidths["description"] || 300,
       minWidth: 250,
       maxWidth: 600,
       ellipsis: {
@@ -230,34 +223,39 @@ const TicketTable: React.FC = () => {
       ),
     },
     {
-      title: <PlusOutlined />,
+      title: (
+        <ColumnDisplayPopOver
+          checkedList={checkedList}
+          onCheckedListChange={setCheckedList}
+        />
+      ),
       key: "action",
       width: 24,
       minWidth: 24,
       maxWidth: 24,
       fixed: "right",
-      onCell: () => ({
-        style: {
-          display: "none",
-        },
-      }),
+      align: 'center'
     },
-  ]);
+  ];
+
+  const columns = getBaseColumns().map(col => ({
+    ...col,
+    hidden: col.key === 'ticketId' || col.key === 'action' ? false : !checkedList.includes(col.key as string),
+  }));
 
   const handleResize =
     (index: number) =>
     (e: React.SyntheticEvent, { size }: { size: { width: number } }) => {
-      const column = columns[index] as ResizableColumnType<DataType>;
+      const column = getBaseColumns()[index] as ResizableColumnType<DataType>;
       const newWidth = Math.min(
         Math.max(size.width, column.minWidth || 50),
         column.maxWidth || 500
       );
 
-      setColumns((prevColumns) => {
-        const nextColumns = [...prevColumns];
-        nextColumns[index] = { ...nextColumns[index], width: newWidth };
-        return nextColumns;
-      });
+      setColumnWidths(prev => ({
+        ...prev,
+        [column.key as string]: newWidth
+      }));
     };
 
   const components = {
