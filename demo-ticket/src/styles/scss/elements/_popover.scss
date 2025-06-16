@@ -85,7 +85,7 @@
 .info_popover_content {
   width: 20rem;
   .info_popover_content_header {
-     @include flex-box.flex-align-center;
+    @include flex-box.flex-align-center;
   }
 }
 
@@ -99,4 +99,20 @@
   .ant-tag {
     margin-right: 0.5rem;
   }
+}
+
+.column-display-popover {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 8px;
+  min-width: 200px;
+  max-height: 200px;
+  overflow-y: auto;
+
+  // .ant-checkbox-wrapper {
+  //   white-space: nowrap;
+  //   overflow: hidden;
+  //   text-overflow: ellipsis;
+  // }
 }

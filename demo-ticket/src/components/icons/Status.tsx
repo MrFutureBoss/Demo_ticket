@@ -1,3 +1,4 @@
+import { Tooltip } from "antd";
 import Image from "next/image";
 import React from "react";
 
@@ -28,9 +29,17 @@ export default function Status({ status }: StatusProps) {
   }
 
   return (
-    <div className="d-flex gap-2 align-items-center">
-      <Image src={item.url} width={25} height={25} quality={50} alt={item.title} />
-      <p className="paragraph-bold-style">{item.title}</p>
-    </div>
+    <Tooltip title={item.title}>
+      <div className="d-flex gap-2 align-items-center">
+        <Image
+          src={item.url}
+          width={25}
+          height={25}
+          quality={50}
+          alt={item.title}
+        />
+        <p className="paragraph-bold-style">{item.title}</p>
+      </div>
+    </Tooltip>
   );
 }

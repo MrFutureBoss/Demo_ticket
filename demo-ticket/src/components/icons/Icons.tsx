@@ -25,15 +25,21 @@ import { HiOutlineViewBoards } from "react-icons/hi";
 import { LuLayoutList } from "react-icons/lu";
 import { MdOutlineCalendarToday } from "react-icons/md";
 import { BsReverseLayoutTextWindowReverse } from "react-icons/bs";
+import { TfiText } from "react-icons/tfi";
+import { RxTextNone } from "react-icons/rx";
 
 export default function Icons({ name }: { name: string }) {
   function renderIcon() {
     switch (name) {
+      case "view-text":
+        return <TfiText />;
+      case "none-text":
+        return <RxTextNone />;
       case "form":
         return <BsReverseLayoutTextWindowReverse />;
       case "calendar":
         return <MdOutlineCalendarToday />;
-      case "list":
+      case "table":
         return <LuLayoutList />;
       case "board":
         return <HiOutlineViewBoards />;

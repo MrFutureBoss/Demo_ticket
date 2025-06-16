@@ -37,8 +37,8 @@ const items: TabsProps["items"] = [
     key: "4",
     label: (
       <div className="overview-tab-label">
-        <Icons name="list" />
-        List
+        <Icons name="table" />
+        Table
       </div>
     ),
     children: <div className="overview-tab-content"> <TicketTable /></div>,
@@ -58,7 +58,7 @@ const items: TabsProps["items"] = [
 export default function OverviewTabs() {
   return (
     <div className="overview-tabs">
-      <Tabs defaultActiveKey="1" items={items}></Tabs>
+      <Tabs defaultActiveKey="4" items={items}></Tabs>
     </div>
   );
 }

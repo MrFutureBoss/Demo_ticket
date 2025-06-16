@@ -19,6 +19,7 @@
     "@reduxjs/toolkit": "^2.8.2",
     "@types/react-resizable": "^3.0.8",
     "antd": "^5.26.0",
+    "axios": "^1.10.0",
     "bootstrap": "^5.3.6",
     "next": "15.3.3",
     "next-redux-wrapper": "^8.1.0",

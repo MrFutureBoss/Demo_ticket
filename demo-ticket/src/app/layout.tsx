@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 import { AntdRegistry } from "@ant-design/nextjs-registry";
-import { ReduxProvider } from "./providers";
+import ClientProvider from "./ClientProvider";
 import "@ant-design/v5-patch-for-react-19";
 import Header from "@/layouts/common/Header";
 import { SplitterProvider } from "@/contexts/SplitterContext";
@@ -13,28 +13,46 @@ import "./globals.css";
 import Body from "@/layouts/common/Body";
 
 export const metadata: Metadata = {
-  title: "Ticket System",
-  description: "Ticket System",
-  keywords: "ticket system, ticket management, ticket tracking, ticket system",
+  title: {
+    default: "Ticket System",
+    template: "%s | Ticket System"
+  },
+  description: "Modern ticket management system for efficient workflow and team collaboration",
+  keywords: "ticket system, ticket management, workflow, team collaboration, project management",
   authors: [{ name: "Mai Tu" }],
   openGraph: {
-    title: "Jira Clone - Project Management Tool",
-    description: "A modern project management tool for teams to track work, manage projects, and deliver great results.",
+    title: "Ticket System - Modern Project Management",
+    description: "A modern ticket management system for teams to track work, manage projects, and deliver great results.",
     type: "website",
     locale: "en_US",
+    siteName: "Ticket System"
   },
   twitter: {
     card: "summary_large_image",
-    title: "Jira Clone - Project Management Tool",
-    description: "A modern project management tool for teams to track work, manage projects, and deliver great results.",
+    title: "Ticket System - Modern Project Management",
+    description: "A modern ticket management system for teams to track work, manage projects, and deliver great results.",
   },
   robots: {
     index: true,
     follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
   },
   viewport: {
     width: "device-width",
     initialScale: 1,
+    maximumScale: 1,
+  },
+  verification: {
+    google: "your-google-site-verification",
+  },
+  alternates: {
+    canonical: "https://your-domain.com",
   },
 };
 
@@ -52,7 +70,7 @@ export default function RootLayout({
       <body suppressHydrationWarning>
         <SplitterProvider>
           <AntdRegistry>
-            <ReduxProvider>
+            <ClientProvider>
               <header role="banner">
                 <Header />
               </header>
@@ -62,7 +80,7 @@ export default function RootLayout({
               <footer role="contentinfo" className="d-none">
                 {/* Add footer content here */}
               </footer>
-            </ReduxProvider>
+            </ClientProvider>
           </AntdRegistry>
         </SplitterProvider>
       </body>
