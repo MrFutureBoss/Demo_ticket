@@ -27,6 +27,9 @@ import Score from "../format/Score";
 import { dumpApi } from "@/utilities/dumpApi";
 import PcTag from "../tags/PcTag";
 import DateTag from "../tags/DateTag";
+import readHTML from "@/utilities/convert/readHTML";
+import TextAvatar from "../avatars/TextAvatar";
+import DescriptionTooltip from "../tooltips/DescriptionTooltip";
 
 interface ResizableColumnType<RecordType>
   extends Omit<ColumnType<RecordType>, "width"> {
@@ -145,6 +148,7 @@ type TableRowSelection<T extends object = object> =
 const defaultCheckedList = [
   "id",
   "title",
+  "status",
   "content",
   "pc_id",
   "location",
@@ -162,51 +166,98 @@ const defaultCheckedList = [
 
 const TicketTable: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
-  // const { tickets: reduxTickets, loading: reduxLoading } = useSelector((state: RootState) => state.ticket);
-  const [tickets, setTickets] = useState<Ticket[]>([]);
-  const [loading, setLoading] = useState(false);
+  const { tickets: reduxTickets, loading: reduxLoading, pagination } = useSelector(
+    (state: RootState) => state.ticket
+  );
   const [selectedRowKeys, setSelectedRowKeys] = React.useState<React.Key[]>([]);
   const [checkedList, setCheckedList] = useState<string[]>(defaultCheckedList);
-  const [columnWidths, setColumnWidths] = useState<{ [key: string]: number }>(
-    {}
-  );
+  const [columnWidths, setColumnWidths] = useState<{ [key: string]: number }>({});
+  const [scrollWidth, setScrollWidth] = useState(3200);
+  const [loadTime, setLoadTime] = useState<number>(0);
+  const [dataSize, setDataSize] = useState<number>(0);
+  const [isPageLoading, setIsPageLoading] = useState(false);
+
+  const measurePerformance = (data: any[]) => {
+    // Tính kích thước dữ liệu
+    const dataSizeInBytes = new Blob([JSON.stringify(data)]).size;
+    setDataSize(dataSizeInBytes / 1024);
+  };
+
+  // Tính toán scroll width dựa trên các cột được hiển thị
+  const calculateScrollWidth = (visibleColumns: string[]) => {
+    const baseColumns = getBaseColumns();
+    let totalWidth = 0;
+
+    // Luôn tính width cho cột ID và Action
+    totalWidth += (columnWidths["id"] || 70) + 24;
+
+    // Tính width cho các cột được chọn
+    visibleColumns.forEach((key) => {
+      const column = baseColumns.find((col) => col.key === key);
+      if (column) {
+        totalWidth += columnWidths[key] || column.width || 0;
+      }
+    });
+
+    // Thêm padding và margin
+    totalWidth += 100;
+    setScrollWidth(totalWidth);
+  };
+
+  // Cập nhật checkedList và tính toán lại scroll width
+  const handleCheckedListChange = (newCheckedList: string[]) => {
+    setCheckedList(newCheckedList);
+    calculateScrollWidth(newCheckedList);
+  };
 
   useEffect(() => {
-    const fetchTickets = async () => {
-      setLoading(true);
-      try {
-        const data = await dumpApi.getAllTickets();
-        setTickets(data);
-        // dispatch(getAllTickets({})); // Comment out Redux dispatch
-      } catch (error) {
-        console.error("Error fetching tickets:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
+    const startTime = performance.now();
+    dispatch(getAllTickets({ page: 1, page_size: 20 }))
+      .unwrap()
+      .then((response) => {
+        const endTime = performance.now();
+        setLoadTime(endTime - startTime);
+        measurePerformance(response.tickets);
+      });
+  }, [dispatch]);
 
-    fetchTickets();
-  }, []);
+  const handleTableChange = (pagination: any, filters: any, sorter: any) => {
+    const startTime = performance.now();
+    dispatch(
+      getAllTickets({
+        page: pagination.current,
+        page_size: pagination.pageSize,
+      })
+    )
+      .unwrap()
+      .then((response) => {
+        const endTime = performance.now();
+        setLoadTime(endTime - startTime);
+        measurePerformance(response.tickets);
+      });
+  };
 
   const getBaseColumns = (): ResizableColumn<Ticket>[] => [
     {
       title: "📌 ID",
       dataIndex: "id",
       key: "id",
-      width: columnWidths["id"] || 70,
+      width: columnWidths["id"] || 90,
       minWidth: 70,
-      maxWidth: 70,
+      maxWidth: 150,
       fixed: "left",
-      render: (id) =>
+      render: (id, record) =>
         id && (
           <Space>
-            <p className="paragraph-normal-style">TIC-IT-{id}</p>
+            <p className="paragraph-normal-style">
+              TIC-{record.type === "HR" ? "HR" : "IT"}-{id}
+            </p>
           </Space>
         ),
       sorter: (a, b) => a.id - b.id,
     },
     {
-      title: "📈 Status",
+      title: "📊 Status",
       dataIndex: "status",
       key: "status",
       width: columnWidths["status"] || 100,
@@ -218,7 +269,7 @@ const TicketTable: React.FC = () => {
         { text: "In Progress", value: 3 },
         { text: "Reopen", value: 4 },
         { text: "Open", value: 5 },
-        { text: "Unassigned", value: 6 },
+        { text: "Pending", value: 6 },
       ],
       onFilter: (value, record) => record.status === value,
       render: (status) => <Status status={status} />,
@@ -230,6 +281,15 @@ const TicketTable: React.FC = () => {
       width: columnWidths["title"] || 200,
       minWidth: 150,
       maxWidth: 300,
+      filterMode: "menu",
+      filterSearch: true,
+      filters: Array.from(
+        new Set(reduxTickets.map((ticket) => ticket.title))
+      ).map((title) => ({
+        text: title,
+        value: title,
+      })),
+      onFilter: (value, record) => record.title.includes(value as string),
       ellipsis: {
         showTitle: false,
       },
@@ -244,15 +304,22 @@ const TicketTable: React.FC = () => {
       dataIndex: "content",
       key: "content",
       width: columnWidths["content"] || 300,
-      minWidth: 250,
-      maxWidth: 600,
+      minWidth: 200,
+      maxWidth: 400,
+      filterMode: "menu",
+      filterSearch: true,
+      filters: Array.from(
+        new Set(reduxTickets.map((ticket) => ticket.content))
+      ).map((content) => ({
+        text: content,
+        value: content,
+      })),
+      onFilter: (value, record) => record.content.includes(value as string),
       ellipsis: {
         showTitle: false,
       },
       render: (content) => (
-        <Tooltip placement="topLeft" title={content}>
-          {content}
-        </Tooltip>
+        <DescriptionTooltip description={readHTML(content)} />
       ),
     },
     {
@@ -272,9 +339,25 @@ const TicketTable: React.FC = () => {
       title: "📍 Location",
       dataIndex: "location",
       key: "location",
-      width: columnWidths["location"] || 150,
-      minWidth: 120,
-      maxWidth: 250,
+      width: columnWidths["location"] || 120,
+      minWidth: 100,
+      maxWidth: 150,
+      filterMode: "menu",
+      filterSearch: true,
+      filters: Array.from(
+        new Set(
+          reduxTickets
+            .filter((ticket) => ticket.location !== null)
+            .map((ticket) => ticket.location)
+        )
+      ).map((location) => ({
+        text: location,
+        value: location,
+      })),
+      onFilter: (value, record) => record.location.includes(value as string),
+      ellipsis: {
+        showTitle: false,
+      },
     },
     {
       title: "🛠️ Assignee",
@@ -283,6 +366,11 @@ const TicketTable: React.FC = () => {
       width: columnWidths["handle"] || 150,
       minWidth: 120,
       maxWidth: 250,
+      render: (handle) => (
+        <Space>
+          <TextAvatar employeeId={handle} fullname="Test" />
+        </Space>
+      ),
     },
     {
       title: "👤 Reporter",
@@ -291,6 +379,11 @@ const TicketTable: React.FC = () => {
       width: columnWidths["user_id"] || 150,
       minWidth: 120,
       maxWidth: 250,
+      render: (user_id) => (
+        <Space>
+          <TextAvatar employeeId={user_id} fullname="Test" />
+        </Space>
+      ),
     },
     {
       title: "📅 Date",
@@ -353,6 +446,22 @@ const TicketTable: React.FC = () => {
       width: columnWidths["team"] || 120,
       minWidth: 100,
       maxWidth: 200,
+      filterMode: "menu",
+      filterSearch: true,
+      filters: Array.from(
+        new Set(
+          reduxTickets
+            .filter((ticket) => ticket.team !== null)
+            .map((ticket) => ticket.team)
+        )
+      ).map((team) => ({
+        text: team,
+        value: team,
+      })),
+      onFilter: (value, record) => record.team.includes(value as string),
+      ellipsis: {
+        showTitle: false,
+      },
     },
     {
       title: "📧 Email",
@@ -360,7 +469,16 @@ const TicketTable: React.FC = () => {
       key: "email",
       width: columnWidths["email"] || 200,
       minWidth: 150,
-      maxWidth: 300,
+      maxWidth: 250,
+      filterMode: "menu",
+      filterSearch: true,
+      filters: Array.from(
+        new Set(reduxTickets.map((ticket) => ticket.email))
+      ).map((email) => ({
+        text: email,
+        value: email,
+      })),
+      onFilter: (value, record) => record.email.includes(value as string),
     },
     {
       title: "📩 Gmail",
@@ -368,13 +486,22 @@ const TicketTable: React.FC = () => {
       key: "gmail",
       width: columnWidths["gmail"] || 200,
       minWidth: 150,
-      maxWidth: 300,
+      maxWidth: 250,
+      filterMode: "menu",
+      filterSearch: true,
+      filters: Array.from(
+        new Set(reduxTickets.map((ticket) => ticket.gmail))
+      ).map((gmail) => ({
+        text: gmail,
+        value: gmail,
+      })),
+      onFilter: (value, record) => record.gmail.includes(value as string),
     },
     {
       title: (
         <ColumnDisplayPopOver
           checkedList={checkedList}
-          onCheckedListChange={setCheckedList}
+          onCheckedListChange={handleCheckedListChange}
         />
       ),
       key: "action",
@@ -430,10 +557,12 @@ const TicketTable: React.FC = () => {
 
   const onDragEnd = ({ active, over }: DragEndEvent) => {
     if (active.id !== over?.id) {
-      const activeIndex = tickets.findIndex(
+      const activeIndex = reduxTickets.findIndex(
         (record) => record.id === active?.id
       );
-      const overIndex = tickets.findIndex((record) => record.id === over?.id);
+      const overIndex = reduxTickets.findIndex(
+        (record) => record.id === over?.id
+      );
       // Note: Since we're using Redux, we should dispatch an action to update the order
       // This is just for UI demonstration
       console.log("Drag end:", { activeIndex, overIndex });
@@ -452,13 +581,14 @@ const TicketTable: React.FC = () => {
     fixed: "left",
     columnTitle: () => (
       <Checkbox
-        checked={selectedRowKeys.length === tickets.length}
+        checked={selectedRowKeys.length === reduxTickets.length}
         indeterminate={
-          selectedRowKeys.length > 0 && selectedRowKeys.length < tickets.length
+          selectedRowKeys.length > 0 &&
+          selectedRowKeys.length < reduxTickets.length
         }
         onChange={(e) => {
           const newSelectedRowKeys = e.target.checked
-            ? tickets.map((item) => item.id)
+            ? reduxTickets.map((item) => item.id)
             : [];
           onSelectChange(newSelectedRowKeys);
         }}
@@ -482,25 +612,52 @@ const TicketTable: React.FC = () => {
 
   return (
     <DndContext modifiers={[restrictToVerticalAxis]} onDragEnd={onDragEnd}>
+      <div className="table-performance-info">
+        <span>Load time: {loadTime.toFixed(2)}ms</span>
+        <span>Data size: {dataSize.toFixed(2)}KB</span>
+      </div>
       <SortableContext
-        items={tickets.map((i) => i.id)}
+        items={reduxTickets.map((i) => i.id)}
         strategy={verticalListSortingStrategy}
       >
         <Table
           components={components}
           rowKey="id"
           columns={tableColumns}
-          dataSource={tickets}
+          dataSource={reduxTickets}
           pagination={{
-            pageSize: 10,
+            current: pagination?.page,
+            pageSize: pagination?.page_size,
+            total: pagination?.total,
+            showSizeChanger: true,
+            showTotal: (total) => `Total ${total} items`,
             position: ["topRight"],
+            onChange: (page, pageSize) => {
+              setIsPageLoading(true);
+              const startTime = performance.now();
+              dispatch(
+                getAllTickets({
+                  page,
+                  page_size: pageSize,
+                })
+              )
+                .unwrap()
+                .then((response) => {
+                  const endTime = performance.now();
+                  setLoadTime(endTime - startTime);
+                  measurePerformance(response.tickets);
+                })
+                .finally(() => {
+                  setIsPageLoading(false);
+                });
+            },
           }}
-          scroll={{ x: 3200, y: 75 * 5 }}
+          scroll={{ x: scrollWidth, y: 75 * 5 }}
           size="middle"
           bordered
           rowSelection={rowSelection}
           className="resizable-table"
-          loading={loading}
+          loading={reduxLoading || isPageLoading}
         />
       </SortableContext>
     </DndContext>

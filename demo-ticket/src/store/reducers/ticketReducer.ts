@@ -1,24 +1,35 @@
 import api from "@/utilities/api";
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { isAxiosError } from "axios";
-import { Ticket, TicketState } from "@/store/interfaces/ticket";
+import {
+  TicketState,
+  PaginationParams,
+  TicketResponse,
+} from "@/store/interfaces/ticket";
 
 export const getAllTickets = createAsyncThunk(
   "tickets/get_all_tickets",
   async (
-    info: { filter?: number } = { filter: 50 },
+    params: PaginationParams = { filter: 200 },
     { rejectWithValue, fulfillWithValue }
   ) => {
     try {
-      const { data } = await api.get(`/tickets/getAllTickets`, {
+      const { data } = await api.get<TicketResponse>(`/tickets/getAllTickets`, {
         params: {
-          filter: info.filter,
+          filter: params.filter,
+          page: params.page,
+          page_size: params.page_size,
+          type: params.type,
         },
       });
 
-      // console.log("Ticket data:", data);
-      return fulfillWithValue({ tickets: data.tickets });
+      if (!data || !data.tickets) {
+        throw new Error("Invalid response format");
+      }
+
+      return fulfillWithValue(data);
     } catch (error: unknown) {
+      console.error("API Error:", error);
       if (isAxiosError(error)) {
         return rejectWithValue(error.response?.data ?? error.message);
       }
@@ -34,7 +45,12 @@ const initialState: TicketState = {
   tickets: [],
   loading: false,
   error: null,
-  count: 0,
+  pagination: {
+    total: 0,
+    page: 1,
+    page_size: 20,
+    total_pages: 0,
+  },
 };
 
 const ticketSlice = createSlice({
@@ -45,7 +61,12 @@ const ticketSlice = createSlice({
       state.tickets = [];
       state.loading = true;
       state.error = null;
-      state.count = 0;
+      state.pagination = {
+        total: 0,
+        page: 1,
+        page_size: 20,
+        total_pages: 0,
+      };
     },
   },
   extraReducers: (builder) => {
@@ -54,9 +75,10 @@ const ticketSlice = createSlice({
     });
     builder.addCase(
       getAllTickets.fulfilled,
-      (state, action: PayloadAction<{ tickets: Ticket[] }>) => {
+      (state, action: PayloadAction<TicketResponse>) => {
         state.loading = false;
         state.tickets = action.payload.tickets;
+        state.pagination = action.payload.pagination;
       }
     );
     builder.addCase(getAllTickets.rejected, (state, action) => {

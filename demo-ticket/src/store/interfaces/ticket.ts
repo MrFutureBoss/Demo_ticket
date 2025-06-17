@@ -2,7 +2,7 @@ interface Ticket {
   id: number;
   title: string;
   content: string;
-  pc_id: number;
+  pc_id: number | string;
   employee_id_issue: number | null;
   skype: string;
   teamview_id: number;
@@ -38,11 +38,37 @@ interface Ticket {
   gmail: string;
 }
 
+interface PaginationState {
+  total: number;
+  page: number;
+  page_size: number;
+  total_pages: number;
+}
+
 interface TicketState {
   tickets: Ticket[];
   loading: boolean;
   error: string | null;
-  count: number;
+  pagination: PaginationState;
 }
 
-export type { Ticket, TicketState };
+interface PaginationParams {
+  filter?: number;
+  page?: number;
+  page_size?: number;
+  type?: "HR" | "IT";
+}
+
+interface PaginationResponse {
+  total: number;
+  page: number;
+  page_size: number;
+  total_pages: number;
+}
+
+interface TicketResponse {
+  tickets: Ticket[];
+  pagination: PaginationResponse;
+}
+
+export type { Ticket, TicketState, PaginationState, PaginationParams, PaginationResponse, TicketResponse };

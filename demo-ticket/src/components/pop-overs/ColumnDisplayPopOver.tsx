@@ -4,6 +4,7 @@ import { PlusOutlined } from '@ant-design/icons';
 
 const columnOptions = [
   { label: '📊 Status', value: 'status' },
+  // { label: '💼 Type', value: 'type' },
   { label: '📝 Content', value: 'content' },
   { label: '💻 PC ID', value: 'pc_id' },
   { label: '📍 Location', value: 'location' },

@@ -27,10 +27,13 @@ import { MdOutlineCalendarToday } from "react-icons/md";
 import { BsReverseLayoutTextWindowReverse } from "react-icons/bs";
 import { TfiText } from "react-icons/tfi";
 import { RxTextNone } from "react-icons/rx";
+import { FaUserCircle } from "react-icons/fa";
 
 export default function Icons({ name }: { name: string }) {
   function renderIcon() {
     switch (name) {
+      case "user":
+        return <FaUserCircle />;
       case "view-text":
         return <TfiText />;
       case "none-text":

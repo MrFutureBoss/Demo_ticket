@@ -2,7 +2,7 @@
 
 import Icons from "@/components/icons/Icons";
 import SidebarMorePopOver from "@/components/pop-overs/SidebarMorePopOver";
-import React from "react";
+import React, { memo, useMemo } from "react";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
 
@@ -90,68 +90,73 @@ const listNavigation = [
   },
 ];
 
-export default function SideBar() {
+const SideBar = memo(function SideBar() {
   const pathname = usePathname();
 
-  const isActive = (path: string) => {
+  const isActive = useMemo(() => (path: string) => {
     if (path === "/") {
       return pathname === "/" || pathname === "";
     }
     return pathname === path;
-  };
+  }, [pathname]);
+
+  const renderNavigation = useMemo(() => {
+    return listNavigation.map((item) => (
+      <div key={item.id}>
+        <a
+          className={`sidebar-item ${
+            isActive(item.path) ? "sidebar-item-active" : ""
+          } ${item.isInSidebar ? "" : "d-none"}`}
+          href={`${item.path}`}
+        >
+          <div className="sidebar-item-icon">
+            <Icons name={item.icon} />
+          </div>
+          <div className="sidebar-item-text">
+            <p className="paragraph-bold-style">{item.name}</p>
+          </div>
+          {item.isDropdown && (
+            <div className="sidebar-dropdown">
+              <Icons name={isActive(item.path) ? "arrow-down" : "arrow-right"} />
+            </div>
+          )}
+        </a>
+        {item.isDropdown && isActive(item.path) && (
+          <p className="sidebar-sub-text">List {item.children?.length}</p>
+        )}
+        
+        {item.isDropdown && isActive(item.path) && (
+          <div className="sidebar-dropdown-content">
+            {item.children?.map((child) => (
+              <a
+                key={child.id}
+                href={`${child.path}`}
+                className="sidebar-dropdown-item"
+              >
+                <div className="sidebar-item-icon">
+                  {child.imageUrl && (
+                    <Image
+                      src={child.imageUrl}
+                      alt={child.name}
+                      width={24}
+                      height={24}
+                    />
+                  )}
+                </div>
+                <div className="sidebar-item-text">
+                  <p className="paragraph-bold-style">{child.name}</p>
+                </div>
+              </a>
+            ))}
+          </div>
+        )}
+      </div>
+    ));
+  }, [isActive]);
 
   return (
     <div className="d-flex flex-column mt-2">
-      {listNavigation.map((item) => (
-        <div key={item.id}>
-          <a
-            className={`sidebar-item ${
-              isActive(item.path) ? "sidebar-item-active" : ""
-            } ${item.isInSidebar ? "" : "d-none"}`}
-            href={`${item.path}`}
-          >
-            <div className="sidebar-item-icon">
-              <Icons name={item.icon} />
-            </div>
-            <div className="sidebar-item-text">
-              <p className="paragraph-bold-style">{item.name}</p>
-            </div>
-            {item.isDropdown && (
-              <div className="sidebar-dropdown">
-                <Icons name={isActive(item.path) ? "arrow-down" : "arrow-right"} />
-              </div>
-            )}
-          </a>
-          {item.isDropdown && isActive(item.path) && (
-            <p className="sidebar-sub-text">List {item.children?.length}</p>
-          )}
-          {item.isDropdown && isActive(item.path) && (
-            <div className="sidebar-dropdown-content">
-              {item.children?.map((child) => (
-                <a
-                  key={child.id}
-                  href={`${child.path}`}
-                  className="sidebar-dropdown-item"
-                >
-                  <div className="sidebar-item-icon">
-                    {child.imageUrl && (
-                      <Image
-                        src={child.imageUrl}
-                        alt={child.name}
-                        width={24}
-                        height={24}
-                      />
-                    )}
-                  </div>
-                  <div className="sidebar-item-text">
-                    <p className="paragraph-bold-style">{child.name}</p>
-                  </div>
-                </a>
-              ))}
-            </div>
-          )}
-        </div>
-      ))}
+      {renderNavigation}
       <SidebarMorePopOver>
         <div className="sidebar-item">
           <div className="sidebar-item-icon">
@@ -164,4 +169,6 @@ export default function SideBar() {
       </SidebarMorePopOver>
     </div>
   );
-}
+});
+
+export default SideBar;

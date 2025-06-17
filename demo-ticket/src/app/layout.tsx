@@ -3,7 +3,6 @@ import { AntdRegistry } from "@ant-design/nextjs-registry";
 import ClientProvider from "./ClientProvider";
 import "@ant-design/v5-patch-for-react-19";
 import Header from "@/layouts/common/Header";
-import { SplitterProvider } from "@/contexts/SplitterContext";
 
 // ========= Plugins SCSS =========
 import "antd/dist/reset.css";
@@ -15,22 +14,26 @@ import Body from "@/layouts/common/Body";
 export const metadata: Metadata = {
   title: {
     default: "Ticket System",
-    template: "%s | Ticket System"
+    template: "%s | Ticket System",
   },
-  description: "Modern ticket management system for efficient workflow and team collaboration",
-  keywords: "ticket system, ticket management, workflow, team collaboration, project management",
+  description:
+    "Modern ticket management system for efficient workflow and team collaboration",
+  keywords:
+    "ticket system, ticket management, workflow, team collaboration, project management",
   authors: [{ name: "Mai Tu" }],
   openGraph: {
     title: "Ticket System - Modern Project Management",
-    description: "A modern ticket management system for teams to track work, manage projects, and deliver great results.",
+    description:
+      "A modern ticket management system for teams to track work, manage projects, and deliver great results.",
     type: "website",
     locale: "en_US",
-    siteName: "Ticket System"
+    siteName: "Ticket System",
   },
   twitter: {
     card: "summary_large_image",
     title: "Ticket System - Modern Project Management",
-    description: "A modern ticket management system for teams to track work, manage projects, and deliver great results.",
+    description:
+      "A modern ticket management system for teams to track work, manage projects, and deliver great results.",
   },
   robots: {
     index: true,
@@ -38,9 +41,9 @@ export const metadata: Metadata = {
     googleBot: {
       index: true,
       follow: true,
-      'max-video-preview': -1,
-      'max-image-preview': 'large',
-      'max-snippet': -1,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
     },
   },
   viewport: {
@@ -68,21 +71,19 @@ export default function RootLayout({
         <link rel="canonical" href="https://your-domain.com" />
       </head>
       <body suppressHydrationWarning>
-        <SplitterProvider>
-          <AntdRegistry>
-            <ClientProvider>
-              <header role="banner">
-                <Header />
-              </header>
-              <main role="main">
-                <Body>{children}</Body>
-              </main>
-              <footer role="contentinfo" className="d-none">
-                {/* Add footer content here */}
-              </footer>
-            </ClientProvider>
-          </AntdRegistry>
-        </SplitterProvider>
+        <AntdRegistry>
+          <ClientProvider>
+            <header role="banner">
+              <Header />
+            </header>
+            <main role="main">
+              <Body>{children}</Body>
+            </main>
+            <footer role="contentinfo" className="d-none">
+              {/* Add footer content here */}
+            </footer>
+          </ClientProvider>
+        </AntdRegistry>
       </body>
     </html>
   );

@@ -100,3 +100,19 @@
   border-spacing: 2px;
   border-collapse: separate;
 }
+
+.table-performance-info {
+  background-color: var(--color-bg-table-body);
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  width: 300px;
+  font-size: 12px;
+  color: var(--color-black-brown);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+

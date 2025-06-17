@@ -15,6 +15,7 @@ Layout style
 @use "./overview/_overview.scss";
 
 
+
 /********************************
 Elements style
 *********************************/
@@ -25,3 +26,5 @@ Elements style
 @use "./elements/_button.scss";
 @use "./elements/_skeleton.scss";
 @use "./elements/_table.scss";
+@use "./elements/_tooltip.scss";
+@use "./elements/_splitter.scss";

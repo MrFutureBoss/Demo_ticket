@@ -1,39 +1,30 @@
 "use client";
 
-import { Button, Splitter } from "antd";
-import React from "react";
-import { useSplitter } from "@/contexts/SplitterContext";
+import { Splitter } from "antd";
+import React, { memo } from "react";
+import { useSelector } from "react-redux";
+import type { RootState } from "@/store";
 import SideBar from "./SideBar";
 
 interface BodyProps {
   children: React.ReactNode;
 }
 
-export default function Body({ children }: BodyProps) {
-  const { isLeftVisible, toggleLeftVisibility } = useSplitter();
+const Body = memo(function Body({ children }: BodyProps) {
+  const isLeftVisible = useSelector(
+    (state: RootState) => state.splitter.isLeftVisible
+  );
 
   return (
     <div className="body-container">
-      {isLeftVisible && (
-        <Button className="d-none" onClick={toggleLeftVisibility}>
-          Hide Left
-        </Button>
-      )}
-      {isLeftVisible ? (
-        <Splitter
-          className=""
-          style={{ boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)" }}
-        >
-          <Splitter.Panel defaultSize="15%" min="23%" max="40%">
+      <Splitter className="splitter-container">
+          <Splitter.Panel collapsible defaultSize="15%" min="23%" max="40%" className={isLeftVisible ? "d-none" : ""}>
             <SideBar />
           </Splitter.Panel>
-          <Splitter.Panel>{children}</Splitter.Panel>
-        </Splitter>
-      ) : (
-        <div style={{ boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)" }}>
-          {children}
-        </div>
-      )}
+        <Splitter.Panel>{children}</Splitter.Panel>
+      </Splitter>
     </div>
   );
-}
+});
+
+export default Body;

@@ -1,11 +1,27 @@
 .image-rounded {
-    border-radius: 50%;
+  border-radius: 50%;
 }
 
 .image-square-rounded {
-    border-radius: 4px;
+  border-radius: 4px;
 }
 
 .crop-image {
-    clip-path: inset(4px);
+  clip-path: inset(4px);
+}
+.text-avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.text-avatar:nth-child(1) {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-bg-white-gray);
+  font-size: 35px;
+}
+.text-avatar p {
+  font-size: 16px;
 }
