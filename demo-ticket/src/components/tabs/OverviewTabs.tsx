@@ -1,7 +1,7 @@
 import React from "react";
 import { Tabs, TabsProps } from "antd";
 import Icons from "../icons/Icons";
-import TicketTable from "../table/TicketTable";
+import ItTableContent from "@/layouts/overview/type-display/it/ItTableContent";
 
 const items: TabsProps["items"] = [
   {
@@ -41,7 +41,11 @@ const items: TabsProps["items"] = [
         Table
       </div>
     ),
-    children: <div className="overview-tab-content"> <TicketTable /></div>,
+    children: (
+      <div className="overview-tab-content">
+        <ItTableContent />
+      </div>
+    ),
   },
   {
     key: "5",

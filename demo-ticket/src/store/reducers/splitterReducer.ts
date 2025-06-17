@@ -3,7 +3,7 @@ import type { SplitterState } from "../interfaces/splitter";
 
 const initialState: SplitterState = {
   loading: false,
-  isLeftVisible: false,
+  isLeftVisible: true,
 };
 
 const splitterSlice = createSlice({

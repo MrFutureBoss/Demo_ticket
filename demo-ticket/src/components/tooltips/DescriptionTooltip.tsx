@@ -13,13 +13,10 @@ export default function DescriptionTooltip({
       placement="topLeft"
       color="var(--color-bg-white-gray-light)"
       key="var(--color-bg-white-gray-light)"
-      title={
-        <div className="description-tooltip-content">
-          <p className="description-italic-style">{description}</p>
-        </div>
-      }
+      title={<div className="description-italic-style">{description}</div>}
     >
       {description}
     </Tooltip>
   );
 }
+

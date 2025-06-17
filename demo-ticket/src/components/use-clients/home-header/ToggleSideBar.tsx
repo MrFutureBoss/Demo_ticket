@@ -15,7 +15,7 @@ const ToggleSideBar = memo(function ToggleSideBar() {
 
   return (
     <div className="header-icon" onClick={handleClick}>
-      <Icons name={isLeftVisible ? "expand" : "collapse"} />
+      <Icons name={isLeftVisible ? "collapse" : "expand"} />
     </div>
   );
 });

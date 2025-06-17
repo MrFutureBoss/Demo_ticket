@@ -1,0 +1,18 @@
+export const defaultCheckedList = [
+  "id",
+  "title",
+  "status",
+  "content",
+  "pc_id",
+  "location",
+  "status",
+  "user_id",
+  "handle",
+  "date",
+  "rating",
+  "difficulty",
+  "feedback",
+  "team",
+  "email",
+  "gmail",
+]; 

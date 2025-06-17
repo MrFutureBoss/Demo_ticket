@@ -34,6 +34,8 @@ interface Ticket {
   employee_id: number;
   mission: string;
   team: string;
+  fullname: string;
+  handler_name: string;
   email: string;
   gmail: string;
 }
@@ -71,4 +73,11 @@ interface TicketResponse {
   pagination: PaginationResponse;
 }
 
-export type { Ticket, TicketState, PaginationState, PaginationParams, PaginationResponse, TicketResponse };
+export type {
+  Ticket,
+  TicketState,
+  PaginationState,
+  PaginationParams,
+  PaginationResponse,
+  TicketResponse,
+};

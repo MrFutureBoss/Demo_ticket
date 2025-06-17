@@ -3,7 +3,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useContext, useMemo, useState, useEffect } from "react";
 import { Table, Button, Space, Tooltip, Checkbox } from "antd";
-import type { TableProps } from "antd/es/table";
 import { HolderOutlined } from "@ant-design/icons";
 import { DndContext, DragEndEvent } from "@dnd-kit/core";
 import type { SyntheticListenerMap } from "@dnd-kit/core/dist/hooks/utilities";
@@ -15,44 +14,25 @@ import {
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { Resizable } from "react-resizable";
-import Status from "../icons/Status";
+import Status from "../../icons/Status";
 import type { ColumnType, ColumnGroupType } from "antd/es/table";
-import ColumnDisplayPopOver from "../pop-overs/ColumnDisplayPopOver";
-import { useDispatch, useSelector } from "react-redux";
-import { getAllTickets } from "@/store/reducers/ticketReducer";
-import type { RootState } from "@/store/rootReducer";
+import ColumnDisplayPopOver from "../../pop-overs/ColumnDisplayPopOver";
 import type { Ticket } from "@/store/interfaces/ticket";
-import type { AppDispatch } from "@/store/index";
-import Score from "../format/Score";
-import { dumpApi } from "@/utilities/dumpApi";
-import PcTag from "../tags/PcTag";
-import DateTag from "../tags/DateTag";
+import Score from "../../format/Score";
+import PcTag from "../../tags/PcTag";
+import DateTag from "../../tags/DateTag";
 import readHTML from "@/utilities/convert/readHTML";
-import TextAvatar from "../avatars/TextAvatar";
-import DescriptionTooltip from "../tooltips/DescriptionTooltip";
-
-interface ResizableColumnType<RecordType>
-  extends Omit<ColumnType<RecordType>, "width"> {
-  width?: number;
-  minWidth?: number;
-  maxWidth?: number;
-}
-
-interface ResizableColumnGroupType<RecordType>
-  extends Omit<ColumnGroupType<RecordType>, "width"> {
-  width?: number;
-  minWidth?: number;
-  maxWidth?: number;
-}
-
-type ResizableColumn<RecordType> =
-  | ResizableColumnType<RecordType>
-  | ResizableColumnGroupType<RecordType>;
-
-interface RowContextProps {
-  setActivatorNodeRef?: (element: HTMLElement | null) => void;
-  listeners?: SyntheticListenerMap;
-}
+import TextAvatar from "../../avatars/TextAvatar";
+import DescriptionTooltip from "../../tooltips/DescriptionTooltip";
+import {
+  RowContextProps,
+  ResizableColumn,
+  RowProps,
+  ResizableColumnType,
+  TableRowSelection,
+} from "./interface/ticketTableInterface";
+import { defaultCheckedList } from "./constants";
+import { useTickets } from "@/hooks/useTickets";
 
 const RowContext = React.createContext<RowContextProps>({});
 
@@ -70,10 +50,6 @@ const DragHandle: React.FC = () => {
     />
   );
 };
-
-interface RowProps extends React.HTMLAttributes<HTMLTableRowElement> {
-  "data-row-key": string;
-}
 
 const Row: React.FC<RowProps> = (props) => {
   const {
@@ -142,33 +118,7 @@ const ResizableTitle = (props: any) => {
   );
 };
 
-type TableRowSelection<T extends object = object> =
-  TableProps<T>["rowSelection"];
-
-const defaultCheckedList = [
-  "id",
-  "title",
-  "status",
-  "content",
-  "pc_id",
-  "location",
-  "status",
-  "user_id",
-  "handle",
-  "date",
-  "rating",
-  "difficulty",
-  "feedback",
-  "team",
-  "email",
-  "gmail",
-];
-
 const TicketTable: React.FC = () => {
-  const dispatch = useDispatch<AppDispatch>();
-  const { tickets: reduxTickets, loading: reduxLoading, pagination } = useSelector(
-    (state: RootState) => state.ticket
-  );
   const [selectedRowKeys, setSelectedRowKeys] = React.useState<React.Key[]>([]);
   const [checkedList, setCheckedList] = useState<string[]>(defaultCheckedList);
   const [columnWidths, setColumnWidths] = useState<{ [key: string]: number }>({});
@@ -176,9 +126,19 @@ const TicketTable: React.FC = () => {
   const [loadTime, setLoadTime] = useState<number>(0);
   const [dataSize, setDataSize] = useState<number>(0);
   const [isPageLoading, setIsPageLoading] = useState(false);
+  const [pagination, setPagination] = useState({
+    page: 1,
+    page_size: 20,
+    total: 0,
+    total_pages: 0
+  });
+
+  const { tickets: swrTickets, isLoading: swrLoading, pagination: swrPagination } = useTickets({
+    page: pagination.page,
+    page_size: pagination.page_size
+  });
 
   const measurePerformance = (data: any[]) => {
-    // Tính kích thước dữ liệu
     const dataSizeInBytes = new Blob([JSON.stringify(data)]).size;
     setDataSize(dataSizeInBytes / 1024);
   };
@@ -190,7 +150,6 @@ const TicketTable: React.FC = () => {
 
     // Luôn tính width cho cột ID và Action
     totalWidth += (columnWidths["id"] || 70) + 24;
-
     // Tính width cho các cột được chọn
     visibleColumns.forEach((key) => {
       const column = baseColumns.find((col) => col.key === key);
@@ -211,30 +170,30 @@ const TicketTable: React.FC = () => {
   };
 
   useEffect(() => {
-    const startTime = performance.now();
-    dispatch(getAllTickets({ page: 1, page_size: 20 }))
-      .unwrap()
-      .then((response) => {
-        const endTime = performance.now();
-        setLoadTime(endTime - startTime);
-        measurePerformance(response.tickets);
-      });
-  }, [dispatch]);
+    if (swrTickets.length > 0) {
+      const startTime = performance.now();
+      measurePerformance(swrTickets);
+      const endTime = performance.now();
+      setLoadTime(endTime - startTime);
+    }
+  }, [swrTickets]);
+
+  useEffect(() => {
+    if (swrPagination) {
+      setPagination(prev => ({
+        ...prev,
+        total: swrPagination.total,
+        total_pages: swrPagination.total_pages
+      }));
+    }
+  }, [swrPagination]);
 
   const handleTableChange = (pagination: any, filters: any, sorter: any) => {
-    const startTime = performance.now();
-    dispatch(
-      getAllTickets({
-        page: pagination.current,
-        page_size: pagination.pageSize,
-      })
-    )
-      .unwrap()
-      .then((response) => {
-        const endTime = performance.now();
-        setLoadTime(endTime - startTime);
-        measurePerformance(response.tickets);
-      });
+    setPagination(prev => ({
+      ...prev,
+      page: pagination.current,
+      page_size: pagination.pageSize
+    }));
   };
 
   const getBaseColumns = (): ResizableColumn<Ticket>[] => [
@@ -284,7 +243,7 @@ const TicketTable: React.FC = () => {
       filterMode: "menu",
       filterSearch: true,
       filters: Array.from(
-        new Set(reduxTickets.map((ticket) => ticket.title))
+        new Set(swrTickets.map((ticket) => ticket.title))
       ).map((title) => ({
         text: title,
         value: title,
@@ -303,13 +262,13 @@ const TicketTable: React.FC = () => {
       title: "📝 Content",
       dataIndex: "content",
       key: "content",
-      width: columnWidths["content"] || 300,
+      width: columnWidths["content"] || 350,
       minWidth: 200,
-      maxWidth: 400,
+      maxWidth: 450,
       filterMode: "menu",
       filterSearch: true,
       filters: Array.from(
-        new Set(reduxTickets.map((ticket) => ticket.content))
+        new Set(swrTickets.map((ticket) => ticket.content))
       ).map((content) => ({
         text: content,
         value: content,
@@ -346,7 +305,7 @@ const TicketTable: React.FC = () => {
       filterSearch: true,
       filters: Array.from(
         new Set(
-          reduxTickets
+          swrTickets
             .filter((ticket) => ticket.location !== null)
             .map((ticket) => ticket.location)
         )
@@ -363,27 +322,38 @@ const TicketTable: React.FC = () => {
       title: "🛠️ Assignee",
       dataIndex: "handle",
       key: "handle",
-      width: columnWidths["handle"] || 150,
-      minWidth: 120,
+      width: columnWidths["handle"] || 180,
+      minWidth: 150,
       maxWidth: 250,
-      render: (handle) => (
-        <Space>
-          <TextAvatar employeeId={handle} fullname="Test" />
-        </Space>
-      ),
+      render: (handle, record) =>
+        handle &&
+        (record.coworker ? (
+          <Space>{record.coworker}</Space>
+        ) : (
+          <Space>
+            <TextAvatar
+              employeeId={record.handle}
+              fullname={record.handler_name}
+            />
+          </Space>
+        )),
     },
     {
       title: "👤 Reporter",
       dataIndex: "user_id",
       key: "user_id",
-      width: columnWidths["user_id"] || 150,
-      minWidth: 120,
+      width: columnWidths["user_id"] || 180,
+      minWidth: 150,
       maxWidth: 250,
-      render: (user_id) => (
-        <Space>
-          <TextAvatar employeeId={user_id} fullname="Test" />
-        </Space>
-      ),
+      render: (user_id, record) =>
+        user_id && (
+          <Space>
+            <TextAvatar
+              employeeId={record.user_id}
+              fullname={record.fullname}
+            />
+          </Space>
+        ),
     },
     {
       title: "📅 Date",
@@ -450,7 +420,7 @@ const TicketTable: React.FC = () => {
       filterSearch: true,
       filters: Array.from(
         new Set(
-          reduxTickets
+          swrTickets
             .filter((ticket) => ticket.team !== null)
             .map((ticket) => ticket.team)
         )
@@ -473,7 +443,7 @@ const TicketTable: React.FC = () => {
       filterMode: "menu",
       filterSearch: true,
       filters: Array.from(
-        new Set(reduxTickets.map((ticket) => ticket.email))
+        new Set(swrTickets.map((ticket) => ticket.email))
       ).map((email) => ({
         text: email,
         value: email,
@@ -490,7 +460,7 @@ const TicketTable: React.FC = () => {
       filterMode: "menu",
       filterSearch: true,
       filters: Array.from(
-        new Set(reduxTickets.map((ticket) => ticket.gmail))
+        new Set(swrTickets.map((ticket) => ticket.gmail))
       ).map((gmail) => ({
         text: gmail,
         value: gmail,
@@ -557,14 +527,12 @@ const TicketTable: React.FC = () => {
 
   const onDragEnd = ({ active, over }: DragEndEvent) => {
     if (active.id !== over?.id) {
-      const activeIndex = reduxTickets.findIndex(
+      const activeIndex = swrTickets.findIndex(
         (record) => record.id === active?.id
       );
-      const overIndex = reduxTickets.findIndex(
+      const overIndex = swrTickets.findIndex(
         (record) => record.id === over?.id
       );
-      // Note: Since we're using Redux, we should dispatch an action to update the order
-      // This is just for UI demonstration
       console.log("Drag end:", { activeIndex, overIndex });
     }
   };
@@ -581,14 +549,14 @@ const TicketTable: React.FC = () => {
     fixed: "left",
     columnTitle: () => (
       <Checkbox
-        checked={selectedRowKeys.length === reduxTickets.length}
+        checked={selectedRowKeys.length === swrTickets.length}
         indeterminate={
           selectedRowKeys.length > 0 &&
-          selectedRowKeys.length < reduxTickets.length
+          selectedRowKeys.length < swrTickets.length
         }
         onChange={(e) => {
           const newSelectedRowKeys = e.target.checked
-            ? reduxTickets.map((item) => item.id)
+            ? swrTickets.map((item) => item.id)
             : [];
           onSelectChange(newSelectedRowKeys);
         }}
@@ -617,39 +585,29 @@ const TicketTable: React.FC = () => {
         <span>Data size: {dataSize.toFixed(2)}KB</span>
       </div>
       <SortableContext
-        items={reduxTickets.map((i) => i.id)}
+        items={swrTickets.map((i) => i.id)}
         strategy={verticalListSortingStrategy}
       >
         <Table
           components={components}
           rowKey="id"
           columns={tableColumns}
-          dataSource={reduxTickets}
+          dataSource={swrTickets}
           pagination={{
-            current: pagination?.page,
-            pageSize: pagination?.page_size,
-            total: pagination?.total,
+            current: pagination.page,
+            pageSize: pagination.page_size,
+            total: pagination.total,
             showSizeChanger: true,
             showTotal: (total) => `Total ${total} items`,
             position: ["topRight"],
             onChange: (page, pageSize) => {
               setIsPageLoading(true);
-              const startTime = performance.now();
-              dispatch(
-                getAllTickets({
-                  page,
-                  page_size: pageSize,
-                })
-              )
-                .unwrap()
-                .then((response) => {
-                  const endTime = performance.now();
-                  setLoadTime(endTime - startTime);
-                  measurePerformance(response.tickets);
-                })
-                .finally(() => {
-                  setIsPageLoading(false);
-                });
+              setPagination(prev => ({
+                ...prev,
+                page,
+                page_size: pageSize
+              }));
+              setIsPageLoading(false);
             },
           }}
           scroll={{ x: scrollWidth, y: 75 * 5 }}
@@ -657,7 +615,7 @@ const TicketTable: React.FC = () => {
           bordered
           rowSelection={rowSelection}
           className="resizable-table"
-          loading={reduxLoading || isPageLoading}
+          loading={swrLoading || isPageLoading}
         />
       </SortableContext>
     </DndContext>

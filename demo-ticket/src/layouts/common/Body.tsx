@@ -18,9 +18,15 @@ const Body = memo(function Body({ children }: BodyProps) {
   return (
     <div className="body-container">
       <Splitter className="splitter-container">
-          <Splitter.Panel collapsible defaultSize="15%" min="23%" max="40%" className={isLeftVisible ? "d-none" : ""}>
-            <SideBar />
-          </Splitter.Panel>
+        <Splitter.Panel
+          defaultSize="15%"
+          min="10%"
+          max="40%"
+          collapsible={{ start: !isLeftVisible }}
+          size={isLeftVisible ? "15%" : 0}
+        >
+          <SideBar />
+        </Splitter.Panel>
         <Splitter.Panel>{children}</Splitter.Panel>
       </Splitter>
     </div>
@@ -28,3 +34,4 @@ const Body = memo(function Body({ children }: BodyProps) {
 });
 
 export default Body;
+
