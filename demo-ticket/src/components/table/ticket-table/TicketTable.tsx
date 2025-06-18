@@ -715,7 +715,7 @@ const TicketTable: React.FC = () => {
           components={components}
           rowKey="id"
           columns={tableColumns}
-          dataSource={swrTickets}
+          dataSource={swrTickets as unknown as readonly Ticket[]}
           onRow={onRow}
           pagination={{
             current: pagination.page,
