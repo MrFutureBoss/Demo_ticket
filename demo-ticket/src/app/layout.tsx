@@ -1,4 +1,4 @@
-import { Metadata } from "next";
+import { Metadata, Viewport } from "next";
 import { AntdRegistry } from "@ant-design/nextjs-registry";
 import ClientProvider from "./ClientProvider";
 import "@ant-design/v5-patch-for-react-19";
@@ -10,6 +10,12 @@ import "../styles/scss/styles.scss";
 // ========= Plugins CSS =========
 import "./globals.css";
 import Body from "@/layouts/common/Body";
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+};
 
 export const metadata: Metadata = {
   title: {
@@ -45,11 +51,6 @@ export const metadata: Metadata = {
       "max-image-preview": "large",
       "max-snippet": -1,
     },
-  },
-  viewport: {
-    width: "device-width",
-    initialScale: 1,
-    maximumScale: 1,
   },
   verification: {
     google: "your-google-site-verification",
