@@ -85,4 +85,5 @@ export type {
   PaginationParams,
   PaginationResponse,
   TicketResponse,
+  TicketDetail,
 };

@@ -134,7 +134,7 @@ const modalBody = (ticket: Ticket) => {
               </div>
               <div className="col-8 d-flex align-items-center justify-content-start">
                 {ticket.pc_id ? (
-                  <PcTag pc_id={ticket.pc_id} />
+                  <PcTag pc_id={Number(ticket.pc_id)} />
                 ) : (
                   <p className="paragraph-normal-style">None</p>
                 )}
