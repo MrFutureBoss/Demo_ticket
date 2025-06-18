@@ -47,15 +47,14 @@ const modalBody = (ticket: Ticket) => {
         defaultSize="60%"
         min="40%"
         max="70%"
-        className="ticket-detail-content-left"
-      >
+        className="ticket-detail-content-left">
         <div className="ticket-detail-description">
           <p className="paragraph-bold-style-2">Content: </p>
           <div className="description-italic-style-2 d-flex flex-column gap-4">
             <span className="d-flex align-items-center justify-content-start">
               <Icons name="quote-left" />
             </span>
-            &nbsp; {readHTML(ticket.content)}
+            {readHTML(ticket.content)}
             <span className="d-flex align-items-center justify-content-end">
               <Icons name="quote-right" />
             </span>
