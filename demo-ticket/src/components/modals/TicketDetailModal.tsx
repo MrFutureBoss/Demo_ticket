@@ -51,7 +51,7 @@ const modalBody = (ticket: Ticket) => {
       >
         <div className="ticket-detail-description">
           <p className="paragraph-bold-style-2">Content: </p>
-          <p className="description-italic-style-2 d-flex flex-column gap-4">
+          <div className="description-italic-style-2 d-flex flex-column gap-4">
             <span className="d-flex align-items-center justify-content-start">
               <Icons name="quote-left" />
             </span>
@@ -59,7 +59,7 @@ const modalBody = (ticket: Ticket) => {
             <span className="d-flex align-items-center justify-content-end">
               <Icons name="quote-right" />
             </span>
-          </p>
+          </div>
         </div>
         <div className="ticket-detail-description">
           <p className="paragraph-bold-style-2">Feedback: </p>
@@ -225,12 +225,12 @@ export default function TicketDetailModal() {
 
   return (
     <Modal
+      className="ticket-detail-modal"
       title={modalHeader(ticketDetail)}
       centered
       open={openTicketDetail}
       onOk={() => dispatch(setOpenTicketDetail(false))}
       onCancel={() => dispatch(setOpenTicketDetail(false))}
-      width={1500}
       loading={ticketDetailLoading}
       footer={null}
     >

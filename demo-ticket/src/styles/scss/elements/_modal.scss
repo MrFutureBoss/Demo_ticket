@@ -11,7 +11,7 @@
 }
 
 .ticket-detail-content {
-  padding: 1rem !important;
+  padding: ticket-detail-modal 1rem !important;
   // height: fit-content;
 }
 
@@ -31,7 +31,7 @@
       border-radius: 6px;
       .feedback-content {
         margin-left: 3rem;
-      } 
+      }
       .rating {
         display: flex;
         align-items: center;
@@ -66,11 +66,21 @@
       font-weight: 500;
       color: var(--color-black-brown);
       margin-bottom: 1.6rem;
-      
+
       p {
         margin: 0;
       }
     }
+  }
+}
 
+.ticket-detail-modal {
+  width: 1000px !important;
+}
+
+/* Desktop: 1025px trở lên */
+@media (min-width: 1025px) {
+  .ticket-detail-modal {
+    width: 1400px !important;
   }
 }
