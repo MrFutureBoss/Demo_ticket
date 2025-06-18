@@ -12,7 +12,6 @@ interface Ticket {
     handle: number;
     coworker: number | null;
     user_id: number;
-    date: string;
     confirm: string;
     action: string;
     create_date: string;

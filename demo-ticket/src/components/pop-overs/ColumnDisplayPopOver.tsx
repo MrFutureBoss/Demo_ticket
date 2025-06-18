@@ -10,7 +10,7 @@ const columnOptions = [
   { label: '📍 Location', value: 'location' },
   { label: '👤 Assignee', value: 'handle' },
   { label: '👥 Reporter', value: 'user_id' },
-  { label: '📅 Date', value: 'date' },
+  { label: '📅 Receive Date', value: 'receive_date' },
   { label: '⭐ Rating', value: 'rating' },
   { label: '🎯 Difficulty', value: 'difficulty' },
   { label: '💬 Feedback', value: 'feedback' },

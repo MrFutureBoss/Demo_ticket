@@ -8,6 +8,7 @@ export const defaultCheckedList = [
   "status",
   "user_id",
   "handle",
+  "receive_date",
   "date",
   "rating",
   "difficulty",
@@ -15,4 +16,4 @@ export const defaultCheckedList = [
   "team",
   "email",
   "gmail",
-]; 
+];

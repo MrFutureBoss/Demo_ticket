@@ -4,7 +4,7 @@ import { Tooltip } from "antd";
 import Icons from "../icons/Icons";
 
 interface TextAvatarProps {
-  employeeId: number;
+  employeeId: number | null;
   fullname: string;
 }
 
@@ -14,7 +14,7 @@ export default function TextAvatar({ employeeId, fullname }: TextAvatarProps) {
       <div className="text-avatar">
         <Icons name="user" />&nbsp;
         <p className="paragraph-normal-style">
-          {fullname}
+          {employeeId ? `${employeeId} - ${fullname}` : fullname}
         </p>
       </div>
     </Tooltip>

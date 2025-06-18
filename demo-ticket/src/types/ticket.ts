@@ -1,4 +1,4 @@
-interface Ticket {
+export interface Ticket {
   id: number;
   title: string;
   content: string;
@@ -38,51 +38,5 @@ interface Ticket {
   handler_name: string;
   email: string;
   gmail: string;
-}
+} 
 
-interface PaginationState {
-  total: number;
-  page: number;
-  page_size: number;
-  total_pages: number;
-}
-
-interface TicketState {
-  tickets: Ticket[];
-  loading: boolean;
-  error: string | null;
-  pagination: PaginationState;
-}
-
-interface PaginationParams {
-  filter?: number;
-  page?: number;
-  page_size?: number;
-  type?: "HR" | "IT";
-}
-
-interface PaginationResponse {
-  total: number;
-  page: number;
-  page_size: number;
-  total_pages: number;
-}
-
-interface TicketResponse {
-  tickets: Ticket[];
-  pagination: PaginationResponse;
-}
-
-interface TicketDetail {
-  ticket: Ticket;
-  loading: boolean;
-}
-
-export type {
-  Ticket,
-  TicketState,
-  PaginationState,
-  PaginationParams,
-  PaginationResponse,
-  TicketResponse,
-};

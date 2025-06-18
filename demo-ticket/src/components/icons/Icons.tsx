@@ -28,10 +28,31 @@ import { BsReverseLayoutTextWindowReverse } from "react-icons/bs";
 import { TfiText } from "react-icons/tfi";
 import { RxTextNone } from "react-icons/rx";
 import { FaUserCircle } from "react-icons/fa";
+import { CgColorPicker } from "react-icons/cg";
+import { FaDev } from "react-icons/fa";
+import { LuScale } from "react-icons/lu";
+import { MdOutlineOfflinePin } from "react-icons/md";
+import { MdOutlineNotStarted } from "react-icons/md";
+import { FaQuoteLeft } from "react-icons/fa";
+import { FaQuoteRight } from "react-icons/fa";
 
 export default function Icons({ name }: { name: string }) {
   function renderIcon() {
     switch (name) {
+      case "quote-left":
+        return <FaQuoteLeft />;
+      case "quote-right":
+        return <FaQuoteRight />;
+      case "start":
+        return <MdOutlineNotStarted />;
+      case "field-template":
+        return <MdOutlineOfflinePin />;
+      case "rules-set":
+        return <LuScale />;
+      case "dev-mode":
+        return <FaDev />;
+      case "color-picker":
+        return <CgColorPicker />;
       case "user":
         return <FaUserCircle />;
       case "view-text":

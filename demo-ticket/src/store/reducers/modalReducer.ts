@@ -1,0 +1,38 @@
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import type { ModalProps } from "../interfaces/modal";
+import { Ticket } from "../interfaces/ticket";
+
+const initialState: ModalProps = {
+  ticketDetail: {} as Ticket,
+  openTicketDetail: false,
+  ticketDetailLoading: false
+};
+
+const modalSlice = createSlice({
+  name: "modal",
+  initialState,
+  reducers: {
+    setOpenTicketDetail: (state, action: PayloadAction<boolean>) => {
+      return {
+        ...state,
+        openTicketDetail: action.payload,
+      };
+    },
+    setTicketDetail: (state, action: PayloadAction<Ticket>) => {
+      return {
+        ...state,
+        ticketDetail: action.payload,
+      };
+    },
+    setTicketDetailLoading: (state, action: PayloadAction<boolean>) => {
+      return {
+        ...state,
+        ticketDetailLoading: action.payload,
+      };
+    }
+  },
+  extraReducers: () => {},
+});
+
+export const { setOpenTicketDetail, setTicketDetail, setTicketDetailLoading } = modalSlice.actions;
+export default modalSlice.reducer;
