@@ -11,7 +11,7 @@ import { Server as SocketIOServer } from "socket.io";
 dotenv.config();
 
 const app = express();
-
+//test
 // Enable CORS with specific options for your frontend origins
 const allowedOrigins = [
   "https://demo-ticket-ten.vercel.app", // Production frontend
