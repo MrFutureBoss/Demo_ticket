@@ -8,12 +8,15 @@ import _ from "lodash";
 const tempId = "685371d8f34e520fbd196759";
 const STORAGE_KEY = "clientSaveData";
 
+const isClient = typeof window !== "undefined";
+
 const fetcher = async (url: string) => {
   const response = await api2.get<ClientSaveResponse>(url);
   return response.data;
 };
 
 const saveToSessionStorage = (data: ClientSaveResponse | object) => {
+  if (!isClient) return;
   try {
     const toSave = (data as ClientSaveResponse).data || data;
     sessionStorage.setItem(STORAGE_KEY, JSON.stringify(toSave));
@@ -23,6 +26,7 @@ const saveToSessionStorage = (data: ClientSaveResponse | object) => {
 };
 
 const getFromSessionStorage = () => {
+  if (!isClient) return null;
   try {
     const stored = sessionStorage.getItem(STORAGE_KEY);
     return stored ? JSON.parse(stored) : null;
