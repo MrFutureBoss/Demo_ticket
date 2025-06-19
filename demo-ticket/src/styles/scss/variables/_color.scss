@@ -235,6 +235,45 @@
   --gradient-8: linear-gradient(270deg, #3667d1 0%, #4460ff 100%);
   --gradient-9: linear-gradient(180deg, #3340b8 0%, #e3f0ff 100%);
   --gradient-10: linear-gradient(180deg, #353e54d9 0%, #27304117 100%);
+
+  // Modern Gradients
+  --gradient-cosmic: linear-gradient(135deg, #00dbde 0%, #fc00ff 100%);
+  --gradient-sunset: linear-gradient(135deg, #ff6b6b 0%, #feca57 100%);
+  --gradient-ocean: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+  --gradient-mint: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+  --gradient-royal: linear-gradient(135deg, #7b4397 0%, #dc2430 100%);
+  --gradient-deep-space: linear-gradient(135deg, #000428 0%, #004e92 100%);
+  --gradient-happy: linear-gradient(135deg, #00b09b 0%, #96c93d 100%);
+  --gradient-forest: linear-gradient(135deg, #2af598 0%, #009efd 100%);
+  --gradient-sunny: linear-gradient(135deg, #FFE53B 0%, #FF2525 100%);
+  --gradient-purple: linear-gradient(135deg, #8E2DE2 0%, #4A00E0 100%);
+  --gradient-sky: linear-gradient(135deg, #89f7fe 0%, #66a6ff 100%);
+  --gradient-fire: linear-gradient(135deg, #f83600 0%, #f9d423 100%);
+  
+  // Gradient Opacity Variants
+  --gradient-cosmic-soft: linear-gradient(135deg, rgba(0, 219, 222, 0.1) 0%, rgba(252, 0, 255, 0.1) 100%);
+  --gradient-sunset-soft: linear-gradient(135deg, rgba(255, 107, 107, 0.1) 0%, rgba(254, 202, 87, 0.1) 100%);
+  --gradient-ocean-soft: linear-gradient(135deg, rgba(79, 172, 254, 0.1) 0%, rgba(0, 242, 254, 0.1) 100%);
+  --gradient-mint-soft: linear-gradient(135deg, rgba(67, 233, 123, 0.1) 0%, rgba(56, 249, 215, 0.1) 100%);
+  --gradient-royal-soft: linear-gradient(135deg, rgba(123, 67, 151, 0.1) 0%, rgba(220, 36, 48, 0.1) 100%);
+  --gradient-deep-space-soft: linear-gradient(135deg, rgba(0, 4, 40, 0.1) 0%, rgba(0, 78, 146, 0.1) 100%);
+  --gradient-happy-soft: linear-gradient(135deg, rgba(0, 176, 155, 0.1) 0%, rgba(150, 201, 61, 0.1) 100%);
+  --gradient-forest-soft: linear-gradient(135deg, rgba(42, 245, 152, 0.1) 0%, rgba(0, 158, 253, 0.1) 100%);
+  --gradient-sunny-soft: linear-gradient(135deg, rgba(255, 229, 59, 0.1) 0%, rgba(255, 37, 37, 0.1) 100%);
+  --gradient-purple-soft: linear-gradient(135deg, rgba(142, 45, 226, 0.1) 0%, rgba(74, 0, 224, 0.1) 100%);
+  --gradient-sky-soft: linear-gradient(135deg, rgba(137, 247, 254, 0.1) 0%, rgba(102, 166, 255, 0.1) 100%);
+  --gradient-fire-soft: linear-gradient(135deg, rgba(248, 54, 0, 0.1) 0%, rgba(249, 212, 35, 0.1) 100%);
+
+  // Blue Theme Gradients
+  --gradient-blue-ocean: linear-gradient(135deg, #1868DB 0%, #54A0FF 100%);
+  --gradient-blue-sky: linear-gradient(135deg, #1868DB 0%, #48A7F8 100%);
+  --gradient-blue-royal: linear-gradient(135deg, #1849DB 0%, #1868DB 100%);
+  --gradient-blue-marine: linear-gradient(135deg, #1868DB 0%, #2E86DE 100%);
+  --gradient-blue-frost: linear-gradient(135deg, #1868DB 0%, #73C0FF 100%);
+  --gradient-blue-cosmic: linear-gradient(135deg, #1849DB 0%, #1868DB 50%, #54A0FF 100%);
+  
+  // Blue Hover Background
+  --gradient-blue-bg-hover: linear-gradient(135deg, rgba(24, 104, 219, 0.1) 0%, rgba(84, 160, 255, 0.1) 100%);
 }
 
 // Layouts Variation

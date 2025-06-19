@@ -1,0 +1,164 @@
+@keyframes shine {
+  0% {
+    transform: translateX(-100%) rotate(35deg);
+  }
+  100% {
+    transform: translateX(100%) rotate(35deg);
+  }
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    opacity: 0.8;
+  }
+  50% {
+    transform: scale(1.02);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 0.8;
+  }
+}
+
+@keyframes ripple {
+  0% {
+    transform: scale(0);
+    opacity: 0.1;
+  }
+  100% {
+    transform: scale(2.5);
+    opacity: 0;
+  }
+}
+
+@mixin hover-gradient-effect(
+  $type: 'ocean',
+  $duration: 0.5s,
+  $border-radius: 6px
+) {
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+  &:hover {
+    background: var(--gradient-blue-bg-hover);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(24, 104, 219, 0.12);
+
+    &::before {
+      opacity: 1;
+      transform: translate(50%, 50%) scale(1);
+    }
+
+    &::after {
+      opacity: 1;
+      transform: translate(-30%, -30%) scale(1);
+    }
+  }
+
+  &::before, &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 150%;
+    height: 150%;
+    background: var(--gradient-blue-#{$type});
+    border-radius: 50%;
+    opacity: 0;
+    z-index: -1;
+    transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  &::before {
+    transform: translate(-100%, -100%) scale(0);
+    background: linear-gradient(
+      135deg,
+      var(--gradient-blue-#{$type}),
+      transparent 60%
+    );
+  }
+
+  &::after {
+    transform: translate(100%, 100%) scale(0);
+    background: linear-gradient(
+      315deg,
+      transparent 40%,
+      var(--gradient-blue-#{$type})
+    );
+  }
+}
+
+@mixin hover-transform-effect(
+  $scale: 1.1,
+  $translate-x: 4px,
+  $color: var(--color-link-active),
+  $duration: 0.3s
+) {
+  transition: all $duration cubic-bezier(0.4, 0, 0.2, 1);
+
+  &:hover {
+    transform: translateX($translate-x) scale($scale);
+    color: $color;
+  }
+}
+
+@mixin hover-icon-effect(
+  $scale: 1.1,
+  $color: var(--color-link-active),
+  $duration: 0.3s,
+  $rotate: 0deg
+) {
+  transition: all $duration cubic-bezier(0.4, 0, 0.2, 1);
+
+  &:hover {
+    transform: scale($scale) rotate($rotate);
+    color: $color;
+  }
+}
+
+@mixin hover-text-effect(
+  $translate-x: 4px,
+  $color: var(--color-link-active),
+  $duration: 0.3s
+) {
+  transition: all $duration cubic-bezier(0.4, 0, 0.2, 1);
+
+  &:hover {
+    transform: translateX($translate-x);
+    color: $color;
+  }
+}
+
+// Beautiful gradient backgrounds
+@mixin gradient-background($type: 'default') {
+  @if $type == 'default' {
+    background: linear-gradient(135deg, 
+      rgba(var(--color-primary-rgb), 0.05) 0%,
+      rgba(var(--color-link-active-rgb), 0.1) 100%
+    );
+  } @else if $type == 'soft-blue' {
+    background: linear-gradient(135deg,
+      rgba(64, 169, 255, 0.05) 0%,
+      rgba(37, 99, 235, 0.1) 100%
+    );
+  } @else if $type == 'warm' {
+    background: linear-gradient(135deg,
+      rgba(255, 107, 107, 0.05) 0%,
+      rgba(255, 159, 67, 0.1) 100%
+    );
+  } @else if $type == 'nature' {
+    background: linear-gradient(135deg,
+      rgba(78, 205, 196, 0.05) 0%,
+      rgba(85, 239, 196, 0.1) 100%
+    );
+  } @else if $type == 'royal' {
+    background: linear-gradient(135deg,
+      rgba(108, 92, 231, 0.05) 0%,
+      rgba(162, 155, 254, 0.1) 100%
+    );
+  }
+} 

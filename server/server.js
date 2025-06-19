@@ -76,6 +76,7 @@ io.on("connection", (socket) => {
 
 //route
 app.use("/api/clientSave", routes.clientSaveRouter);
+app.use("/api/ticket", routes.ticketRouter);
 
 // Handle 404 errors for undefined routes
 app.use((req, res, next) => {

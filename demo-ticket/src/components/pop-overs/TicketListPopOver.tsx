@@ -1,8 +1,8 @@
 import { Popover } from "antd";
-import React from "react";
+import React, { useState } from "react";
 
 interface TicketListPopOverProps {
-  children: React.ReactNode;
+  children: React.ReactNode | ((isOpen: boolean) => React.ReactNode);
 }
 
 const TicketListTitle = () => {
@@ -21,6 +21,8 @@ const TicketListContent = () => {
 export default function TicketListPopOver({
   children,
 }: TicketListPopOverProps) {
+  const [isOpen, setIsOpen] = useState(false);
+
   return (
     <Popover
       placement="left"
@@ -28,8 +30,10 @@ export default function TicketListPopOver({
       content={<TicketListContent />}
       trigger="click"
       arrow={true}
+      open={isOpen}
+      onOpenChange={setIsOpen}
     >
-      {children}
+      {typeof children === "function" ? children(isOpen) : children}
     </Popover>
   );
 }

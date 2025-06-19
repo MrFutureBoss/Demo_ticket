@@ -6,6 +6,7 @@ Variables style
 @use "./variables/_border.scss";
 @use "./variables/_bg.scss";
 @use "./variables/_position.scss";
+@use "./variables/_hover-effects.scss";
 
 /********************************
 Layout style
@@ -27,3 +28,6 @@ Elements style
 @use "./elements/_tooltip.scss";
 @use "./elements/_splitter.scss";
 @use "./elements/_modal.scss";
+@use "./elements/_loading.scss";
+@use "./elements/_sidebar.scss";
+@use "./elements/_chat-box.scss";

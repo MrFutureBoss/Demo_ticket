@@ -3,13 +3,13 @@ import { AntdRegistry } from "@ant-design/nextjs-registry";
 import ClientProvider from "./ClientProvider";
 import "@ant-design/v5-patch-for-react-19";
 import Header from "@/layouts/common/Header";
+import Body from "@/layouts/common/Body";
 
 // ========= Plugins SCSS =========
 import "antd/dist/reset.css";
 import "../styles/scss/styles.scss";
 // ========= Plugins CSS =========
 import "./globals.css";
-import Body from "@/layouts/common/Body";
 
 export const viewport: Viewport = {
   width: "device-width",

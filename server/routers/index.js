@@ -1,3 +1,4 @@
 import clientSaveRouter from "./clientSaveRoute.js";
+import ticketRouter from "./ticketRoute.js";
 
-export default { clientSaveRouter };
+export default { clientSaveRouter, ticketRouter };

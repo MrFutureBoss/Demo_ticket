@@ -1,19 +1,41 @@
+"use client";
+
 import Icons from "@/components/icons/Icons";
 import CustomizeFieldPopOver from "@/components/pop-overs/CustomizeFieldPopOver";
 import TicketTable from "@/components/table/ticket-table/TicketTable";
 import useClientSave from "@/hooks/useClientSave";
 import { Button } from "antd";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import LoadingDots from "@/components/loadings/LoadingDots";
 
 const ItTableContent = () => {
   const { clientSave, patchClientSave } = useClientSave();
+  const [isClient, setIsClient] = useState(false);
 
-  if (!clientSave) return <div>Loading...</div>;
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   const handleDevmode = (devmode: boolean) => {
     patchClientSave({ table: { devmode: !devmode } });
   };
-  console.log("devmode: ", clientSave?.table?.devmode);
+
+  if (!isClient) {
+    return (
+      <div className="it-table-tool">
+        <LoadingDots />
+      </div>
+    );
+  }
+
+  if (!clientSave) {
+    return (
+      <div className="it-table-tool">
+        <LoadingDots />
+      </div>
+    );
+  }
+
   return (
     <>
       <div className="it-table-tool">

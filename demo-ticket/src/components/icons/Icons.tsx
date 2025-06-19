@@ -36,10 +36,13 @@ import { MdOutlineNotStarted } from "react-icons/md";
 import { FaQuoteLeft } from "react-icons/fa";
 import { FaQuoteRight } from "react-icons/fa";
 import { IoTicketOutline } from "react-icons/io5";
+import { RiOpenaiFill } from "react-icons/ri";
 
 export default function Icons({ name }: { name: string }) {
   function renderIcon() {
     switch (name) {
+      case "chat-ai":
+        return <RiOpenaiFill />;
       case "tickets":
         return <IoTicketOutline />;
       case "quote-left":
