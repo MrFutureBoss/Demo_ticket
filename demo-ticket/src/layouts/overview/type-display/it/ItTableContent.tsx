@@ -25,7 +25,7 @@ const ItTableContent = () => {
         <Button
           type="default"
           className={`customize-button ${
-            clientSave.table.devmode
+            clientSave?.table?.devmode
               ? "devmode-button-active"
               : "devmode-button"
           }`}
