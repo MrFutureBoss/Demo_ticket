@@ -170,6 +170,7 @@ const TicketTable: React.FC = () => {
     isLoading: swrLoading,
     pagination: swrPagination,
   } = useTickets({
+    type: "IT",
     page: pagination.page,
     page_size: pagination.page_size,
   });

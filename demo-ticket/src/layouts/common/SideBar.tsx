@@ -5,6 +5,8 @@ import SidebarMorePopOver from "@/components/pop-overs/SidebarMorePopOver";
 import React, { memo, useMemo } from "react";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
+import TicketListPopOver from "@/components/pop-overs/TicketListPopOver";
+import Status from "@/components/icons/Status";
 
 const listNavigation = [
   {
@@ -17,79 +19,63 @@ const listNavigation = [
   },
   {
     id: 2,
+    name: "Tickets",
+    path: "/tickets",
+    icon: "tickets",
+    isDropdown: true,
+    isInSidebar: true,
+    children: [
+      {
+        id: 1,
+        icon: <Status status={1} showTitle={false} />,
+        name: "Open",
+        path: "",
+      },
+      {
+        id: 2,
+        icon: <Status status={6} showTitle={false} />,
+        name: "On Hold",
+        path: "",
+      },
+    ],
+  },
+  {
+    id: 3,
     name: "Dashboard",
     path: "/dashboard",
     icon: "dashboard",
     isInSidebar: true,
   },
   {
-    id: 3,
-    name: "Tickets",
-    path: "/dashboard",
-    icon: "dashboard",
-    isInSidebar: true,
-  },
-  {
     id: 4,
-    name: "Proposes",
-    path: "/proposes",
-    icon: "proposes",
-    isInSidebar: true,
-  },
-  {
-    id: 5,
     name: "Office",
     path: "/office",
     icon: "office",
     isInSidebar: true,
-    isDropdown: true,
-    children: [
-      {
-        id: 1,
-        icon: "",
-        imageUrl: "/assets/images/airplane.svg",
-        name: "Office Thanh Cong",
-        path: "",
-      },
-      {
-        id: 2,
-        icon: "",
-        imageUrl: "/assets/images/code.svg",
-        name: "Office My Dinh",
-        path: "",
-      },
-      {
-        id: 3,
-        icon: "",
-        imageUrl: "/assets/images/koala.svg",
-        name: "Office Ho Chi Minh",
-        path: "",
-      },
-    ],
   },
   {
-    id: 6,
+    id: 5,
     name: "Reports",
     path: "/reports",
     icon: "reports",
     isInSidebar: true,
   },
   {
-    id: 7,
+    id: 6,
     name: "Guide",
     path: "/guide",
     icon: "guide",
     isInSidebar: true,
   },
   {
-    id: 8,
+    id: 7,
     name: "Telecom",
     path: "/telecom",
     icon: "telecom",
     isInSidebar: false,
   },
   {
-    id: 9,
+    id: 8,
     name: "FeedBack",
     path: "/feedback",
     icon: "feedback",
@@ -115,7 +101,7 @@ const SideBar = memo(function SideBar() {
       <div key={item.id}>
         <a
           className={`sidebar-item ${
-            isActive(item.path) ? "sidebar-item-active" : ""
+            isActive(item.path || "") ? "sidebar-item-active" : ""
           } ${item.isInSidebar ? "" : "d-none"}`}
           href={`${item.path}`}
         >
@@ -140,25 +126,16 @@ const SideBar = memo(function SideBar() {
         {item.isDropdown && isActive(item.path) && (
           <div className="sidebar-dropdown-content">
             {item.children?.map((child) => (
-              <a
-                key={child.id}
-                href={`${child.path}`}
-                className="sidebar-dropdown-item"
-              >
-                <div className="sidebar-item-icon">
-                  {child.imageUrl && (
-                    <Image
-                      src={child.imageUrl}
-                      alt={child.name}
-                      width={24}
-                      height={24}
-                    />
-                  )}
+              <TicketListPopOver key={child.id}>
+                <div className="sidebar-dropdown-item">
+                  <div className="sidebar-item-icon">
+                    {child.icon && child.icon}
+                  </div>
+                  <div className="sidebar-item-text">
+                    <p className="paragraph-bold-style">{child.name}</p>
+                  </div>
                 </div>
-                <div className="sidebar-item-text">
-                  <p className="paragraph-bold-style">{child.name}</p>
-                </div>
-              </a>
+              </TicketListPopOver>
             ))}
           </div>
         )}

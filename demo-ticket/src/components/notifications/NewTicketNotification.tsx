@@ -3,6 +3,7 @@ import React from "react";
 import { notification } from "antd";
 import Status from "../icons/Status";
 import readHTML from "@/utilities/convert/readHTML";
+import showLessWord from "@/utilities/format/showLessWord";
 
 interface NewTicketNotificationProps {
   title: string;
@@ -10,13 +11,17 @@ interface NewTicketNotificationProps {
   status: number;
 }
 
-export const showNewTicketNotification = ({ title, description, status }: NewTicketNotificationProps) => {
+export const showNewTicketNotification = ({
+  title,
+  description,
+  status,
+}: NewTicketNotificationProps) => {
   notification.open({
-    message: title,
-    description: readHTML(description),
-    icon: <Status status={status} />,
+    message: <span className="paragraph-bold-style">{title}</span>,
+    description: readHTML(showLessWord(description, 50)),
+    icon: <Status status={status} showTitle={false} />,
     showProgress: true,
-    duration: 4.5,
+    duration: 60,
     placement: "topRight",
   });
 };

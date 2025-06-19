@@ -35,10 +35,13 @@ import { MdOutlineOfflinePin } from "react-icons/md";
 import { MdOutlineNotStarted } from "react-icons/md";
 import { FaQuoteLeft } from "react-icons/fa";
 import { FaQuoteRight } from "react-icons/fa";
+import { IoTicketOutline } from "react-icons/io5";
 
 export default function Icons({ name }: { name: string }) {
   function renderIcon() {
     switch (name) {
+      case "tickets":
+        return <IoTicketOutline />;
       case "quote-left":
         return <FaQuoteLeft />;
       case "quote-right":

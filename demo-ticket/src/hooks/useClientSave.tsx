@@ -2,7 +2,6 @@ import React from "react";
 import useSWR from "swr";
 import api2 from "@/utilities/api2";
 import type { ClientSaveResponse } from "./interfaces/clientSave";
-import { message } from "antd";
 import _ from "lodash";
 
 const tempId = "685371d8f34e520fbd196759";
@@ -87,9 +86,9 @@ export const useClientSave = () => {
       mutate({ data: newData }, false);
       await api2.patch(`/clientSave/patchClientSave/${tempId}`, patchData);
       mutate();
-      message.success("Cập nhật thành công!");
+    //   message.success("Cập nhật thành công!");
     } catch (error) {
-      message.error("Cập nhật thất bại!");
+    //   message.error("Cập nhật thất bại!");
       console.error(error);
     }
   };
