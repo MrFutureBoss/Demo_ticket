@@ -133,6 +133,16 @@
     align-items: center;
     gap: 5px;
   }
+
+  .devmode-button-active {
+    color: var(--color-info);
+    border: 1px solid var(--color-info);
+  }
+
+  .devmode-button:hover {
+    background-color: var(--color-bg-table-body) !important;
+  }
+
   .theme-sample {
     background-color: var(--color-bg-table-body-hover);
     height: 25px;

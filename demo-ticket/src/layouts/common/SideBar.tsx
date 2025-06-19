@@ -7,7 +7,7 @@ import { usePathname } from "next/navigation";
 import Image from "next/image";
 
 const listNavigation = [
- {
+  {
     id: 1,
     name: "Overview",
     path: "/",
@@ -24,13 +24,20 @@ const listNavigation = [
   },
   {
     id: 3,
+    name: "Tickets",
+    path: "/dashboard",
+    icon: "dashboard",
+    isInSidebar: true,
+  },
+  {
+    id: 4,
     name: "Proposes",
     path: "/proposes",
     icon: "proposes",
     isInSidebar: true,
   },
   {
-    id: 4,
+    id: 5,
     name: "Office",
     path: "/office",
     icon: "office",
@@ -61,28 +68,28 @@ const listNavigation = [
     ],
   },
   {
-    id: 5,
+    id: 6,
     name: "Reports",
     path: "/reports",
     icon: "reports",
     isInSidebar: true,
   },
   {
-    id: 6,
+    id: 7,
     name: "Guide",
     path: "/guide",
     icon: "guide",
     isInSidebar: true,
   },
   {
-    id: 7,
+    id: 8,
     name: "Telecom",
     path: "/telecom",
     icon: "telecom",
     isInSidebar: false,
   },
   {
-    id: 8,
+    id: 9,
     name: "FeedBack",
     path: "/feedback",
     icon: "feedback",
@@ -93,12 +100,15 @@ const listNavigation = [
 const SideBar = memo(function SideBar() {
   const pathname = usePathname();
 
-  const isActive = useMemo(() => (path: string) => {
-    if (path === "/") {
-      return pathname === "/" || pathname === "";
-    }
-    return pathname === path;
-  }, [pathname]);
+  const isActive = useMemo(
+    () => (path: string) => {
+      if (path === "/") {
+        return pathname === "/" || pathname === "";
+      }
+      return pathname === path;
+    },
+    [pathname]
+  );
 
   const renderNavigation = useMemo(() => {
     return listNavigation.map((item) => (
@@ -117,14 +127,16 @@ const SideBar = memo(function SideBar() {
           </div>
           {item.isDropdown && (
             <div className="sidebar-dropdown">
-              <Icons name={isActive(item.path) ? "arrow-down" : "arrow-right"} />
+              <Icons
+                name={isActive(item.path) ? "arrow-down" : "arrow-right"}
+              />
             </div>
           )}
         </a>
         {item.isDropdown && isActive(item.path) && (
           <p className="sidebar-sub-text">List {item.children?.length}</p>
         )}
-        
+
         {item.isDropdown && isActive(item.path) && (
           <div className="sidebar-dropdown-content">
             {item.children?.map((child) => (

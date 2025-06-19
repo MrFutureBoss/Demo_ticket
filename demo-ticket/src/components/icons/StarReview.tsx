@@ -16,7 +16,7 @@ export default function StarReview({ score }: StarReviewProps) {
         index < normalizedScore ? (
           <FaStar key={index} className="text-warning" size={20} />
         ) : (
-          <CiStar key={index} className="text-secondary" size={20} />
+          <CiStar key={index} className="text-secondary" size={25} />
         )
       )}
     </div>

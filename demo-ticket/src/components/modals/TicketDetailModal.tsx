@@ -47,7 +47,8 @@ const modalBody = (ticket: Ticket) => {
         defaultSize="60%"
         min="40%"
         max="70%"
-        className="ticket-detail-content-left">
+        className="ticket-detail-content-left"
+      >
         <div className="ticket-detail-description">
           <p className="paragraph-bold-style-2">Content: </p>
           <div className="description-italic-style-2 d-flex flex-column gap-4">
@@ -63,25 +64,28 @@ const modalBody = (ticket: Ticket) => {
         <div className="ticket-detail-description">
           <p className="paragraph-bold-style-2">Feedback: </p>
           <div className="description-italic-style-3 d-flex flex-column gap-4">
-            {ticket.feedback ? (
-              <div className="feedback-box">
-                <div className="d-flex align-items-center justify-content-start">
+            <div className="feedback-box">
+              <div className="d-flex align-items-center justify-content-start">
+                {ticket.user_id ? (
                   <TextAvatarWithDate
                     employeeId={ticket.user_id}
                     fullname={ticket.fullname}
                     date={ticket.date}
                   />
-                </div>
-                <p>{ticket.feedback}</p>
-                <div className="rating">
-                  Reporter give: <StarReview score={ticket.rating ?? 5} />
-                </div>
+                ) : (
+                  <TextAvatar employeeId={0} fullname="Not found" />
+                )}
               </div>
-            ) : (
-              <p className="description-italic-style-3">
-                Repoter not feedback yet
-              </p>
-            )}
+              <p>{ticket.feedback ? ticket.feedback : "No feedback"}</p>
+              <div className="rating">
+                Rating:{" "}
+                {ticket.rating ? (
+                  <StarReview score={ticket.rating} />
+                ) : (
+                  "not give yet!"
+                )}
+              </div>
+            </div>
           </div>
         </div>
       </Splitter.Panel>

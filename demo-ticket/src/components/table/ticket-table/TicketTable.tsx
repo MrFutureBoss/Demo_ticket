@@ -46,6 +46,7 @@ import {
   setTicketDetail,
 } from "@/store/reducers/modalReducer";
 import Difficulty from "@/components/icons/Difficulty";
+import { useClientSave } from "@/hooks/useClientSave";
 
 const RowContext = React.createContext<RowContextProps>({});
 
@@ -131,6 +132,22 @@ const ResizableTitle = (props: any) => {
   );
 };
 
+const alwaysVisibleKeys = [
+  "id",
+  "title",
+  "status",
+  "content",
+  "pc_id",
+  "user_id",
+  "handle",
+  "receive_date",
+  "date",
+  "rating",
+  "difficulty",
+  "team"
+  // ... các key cột mặc định khác nếu cần
+];
+
 const TicketTable: React.FC = () => {
   const [selectedRowKeys, setSelectedRowKeys] = React.useState<React.Key[]>([]);
   const [checkedList, setCheckedList] = useState<string[]>(defaultCheckedList);
@@ -156,6 +173,8 @@ const TicketTable: React.FC = () => {
     page: pagination.page,
     page_size: pagination.page_size,
   });
+
+  const { clientSave: swrClientSave } = useClientSave();
 
   const dispatch = useDispatch();
 
@@ -541,7 +560,7 @@ const TicketTable: React.FC = () => {
       {
         title: (
           <ColumnDisplayPopOver
-            checkedList={checkedList}
+            // checkedList={checkedList}
             onCheckedListChange={handleCheckedListChange}
           />
         ),
@@ -580,7 +599,7 @@ const TicketTable: React.FC = () => {
     return getBaseColumns().map((col) => ({
       ...col,
       hidden:
-        col.key === "id" || col.key === "action"
+        col.key === "id" || col.key === "action" || alwaysVisibleKeys.includes(col.key as string)
           ? false
           : !checkedList.includes(col.key as string),
     }));
@@ -682,7 +701,11 @@ const TicketTable: React.FC = () => {
     <>
       <TicketDetailModal />
       <DndContext modifiers={[restrictToVerticalAxis]} onDragEnd={onDragEnd}>
-        <div className="table-performance-info">
+        <div
+          className={`table-performance-info ${
+            swrClientSave?.table.devmode ? "" : "d-none"
+          }`}
+        >
           <div>
             Load time:{" "}
             <span

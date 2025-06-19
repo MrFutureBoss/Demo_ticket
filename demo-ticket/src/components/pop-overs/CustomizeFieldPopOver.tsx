@@ -38,7 +38,7 @@ export default function CustomizeFieldPopOver() {
       arrow={false}
       trigger="click"
     >
-      <Button variant="outlined" color="default" className="customize-button">
+      <Button type="default" className="customize-button">
         <Icons name="customize" />
         <p className="paragraph-no-style">Fields</p>
       </Button>

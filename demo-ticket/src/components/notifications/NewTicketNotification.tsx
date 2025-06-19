@@ -2,6 +2,7 @@
 import React from "react";
 import { notification } from "antd";
 import Status from "../icons/Status";
+import readHTML from "@/utilities/convert/readHTML";
 
 interface NewTicketNotificationProps {
   title: string;
@@ -12,7 +13,7 @@ interface NewTicketNotificationProps {
 export const showNewTicketNotification = ({ title, description, status }: NewTicketNotificationProps) => {
   notification.open({
     message: title,
-    description: description,
+    description: readHTML(description),
     icon: <Status status={status} />,
     showProgress: true,
     duration: 4.5,

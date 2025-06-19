@@ -5,6 +5,8 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
+    "dev": "nodemon server.js",
+    "start": "node server.js",
     "test": "test"
   },
   "keywords": [
@@ -23,6 +25,7 @@
     "http": "^0.0.1-security",
     "http-errors": "^2.0.0",
     "jsonwebtoken": "^9.0.2",
+    "lodash": "^4.17.21",
     "moment": "^2.30.1",
     "mongoose": "^8.15.2",
     "multer": "^2.0.1",

@@ -5,10 +5,11 @@ import Icons from "../icons/Icons";
 import ItTableContent from "@/layouts/overview/type-display/it/ItTableContent";
 import useTickets from "@/hooks/useTickets";
 import { showNewTicketNotification } from "../notifications/NewTicketNotification";
+import useClientSave from "@/hooks/useClientSave";
 
 const items: TabsProps["items"] = [
   {
-    key: "1",
+    key: "summary",
     label: (
       <div className="overview-tab-label">
         <Icons name="summary" /> Summary
@@ -17,7 +18,7 @@ const items: TabsProps["items"] = [
     children: <div>Summary</div>,
   },
   {
-    key: "2",
+    key: "board",
     label: (
       <div className="overview-tab-label">
         <Icons name="board" />
@@ -27,7 +28,7 @@ const items: TabsProps["items"] = [
     children: <div>Board</div>,
   },
   {
-    key: "3",
+    key: "calendar",
     label: (
       <div className="overview-tab-label">
         <Icons name="calendar" />
@@ -37,7 +38,7 @@ const items: TabsProps["items"] = [
     children: <div>Calendar</div>,
   },
   {
-    key: "4",
+    key: "table",
     label: (
       <div className="overview-tab-label">
         <Icons name="table" />
@@ -51,7 +52,7 @@ const items: TabsProps["items"] = [
     ),
   },
   {
-    key: "5",
+    key: "form",
     label: (
       <div className="overview-tab-label">
         <Icons name="form" />
@@ -63,6 +64,7 @@ const items: TabsProps["items"] = [
 ];
 
 export default function OverviewTabs() {
+  const { clientSave, patchClientSave } = useClientSave();
   const { tickets } = useTickets();
   const previousTicketsRef = useRef(tickets);
   const isFirstLoad = useRef(true);
@@ -82,8 +84,11 @@ export default function OverviewTabs() {
 
       // Show notification only if the latest ticket is different from the previous one
       // and the new ticket has a newer timestamp
-      if (latestTicket.id !== previousLatestTicket.id && 
-          new Date(latestTicket.create_date) > new Date(previousLatestTicket.create_date)) {
+      if (
+        latestTicket.id !== previousLatestTicket.id &&
+        new Date(latestTicket.create_date) >
+          new Date(previousLatestTicket.create_date)
+      ) {
         showNewTicketNotification({
           title: latestTicket.title,
           description: latestTicket.content,
@@ -96,9 +101,17 @@ export default function OverviewTabs() {
     previousTicketsRef.current = tickets;
   }, [tickets]);
 
+  const handleTabChange = (key: string) => {
+    patchClientSave({ tabs: key });
+  };
+
   return (
     <div className="overview-tabs">
-      <Tabs defaultActiveKey="4" items={items}></Tabs>
+      <Tabs
+        activeKey={clientSave?.tabs || "table"}
+        items={items}
+        onChange={handleTabChange}
+      ></Tabs>
     </div>
   );
 }

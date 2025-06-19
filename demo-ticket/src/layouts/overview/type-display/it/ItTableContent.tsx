@@ -1,10 +1,19 @@
 import Icons from "@/components/icons/Icons";
 import CustomizeFieldPopOver from "@/components/pop-overs/CustomizeFieldPopOver";
 import TicketTable from "@/components/table/ticket-table/TicketTable";
+import useClientSave from "@/hooks/useClientSave";
 import { Button } from "antd";
 import React from "react";
 
 const ItTableContent = () => {
+  const { clientSave, patchClientSave } = useClientSave();
+
+  if (!clientSave) return <div>Loading...</div>;
+
+  const handleDevmode = (devmode: boolean) => {
+    patchClientSave({ table: { devmode: !devmode } });
+  };
+  console.log("devmode: ", clientSave?.table?.devmode);
   return (
     <>
       <div className="it-table-tool">
@@ -13,11 +22,19 @@ const ItTableContent = () => {
           <p className="paragraph-no-style">Theme colors</p>
         </div>
         <CustomizeFieldPopOver />
-        <Button variant="outlined" color="default" className="customize-button">
+        <Button
+          type="default"
+          className={`customize-button ${
+            clientSave.table.devmode
+              ? "devmode-button-active"
+              : "devmode-button"
+          }`}
+          onClick={() => handleDevmode(clientSave?.table?.devmode)}
+        >
           <Icons name="start" />
           <p className="paragraph-no-style">Dev</p>
         </Button>
-        <Button variant="outlined" color="default" className="customize-button">
+        <Button type="default" className="customize-button">
           <Icons name="guide" />
           <p className="paragraph-no-style">Guide</p>
         </Button>

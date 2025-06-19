@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const connectDB = () => {
   try {
-    const db = mongoose.connect(process.env.UsRI_MONGODB);
+    const db = mongoose.connect(process.env.URI_MONGODB);
     console.log("Connected to MongoDB successfully");
     console.log(process.env.URI_MONGODB);
 

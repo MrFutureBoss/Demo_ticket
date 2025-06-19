@@ -2,9 +2,9 @@ import express, { json } from "express";
 import dotenv from "dotenv";
 import cors from "cors";
 import createError from "http-errors";
-import connectDB from "./database.js";
+import connectDB from "./services/database.js";
 import http from "http";
-import routes from "./routes/index.js";
+import routes from "./routers/index.js";
 import errorMiddleware from "./middlewares/errorMiddleware.js";
 import { Server as SocketIOServer } from "socket.io";
 
@@ -76,8 +76,7 @@ io.on("connection", (socket) => {
 });
 
 //route
-app.use("/api/auth", routes.authenRouter);
-app.use("/api/banner", routes.bannerRouter);
+app.use("/api/clientSave", routes.clientSaveRouter);
 
 // Handle 404 errors for undefined routes
 app.use((req, res, next) => {
