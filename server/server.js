@@ -14,7 +14,7 @@ const app = express();
 
 // Enable CORS with specific options for your frontend origins
 const allowedOrigins = [
-  "https://demo-ticket-ten.vercel.app/", // Production frontend
+  "https://demo-ticket-ten.vercel.app", // Production frontend
   "http://localhost:3000", // Local development
 ];
 
