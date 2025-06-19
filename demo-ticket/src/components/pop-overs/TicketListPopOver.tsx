@@ -6,7 +6,12 @@ interface TicketListPopOverProps {
 }
 
 const TicketListTitle = () => {
-  return <div>List Tickets</div>;
+  return (
+    <div className="d-flex justify-content-between align-items-center">
+      <div>List Tickets</div>
+      <a href="#">Go to table</a>
+    </div>
+  );
 };
 
 const TicketListContent = () => {
