@@ -263,7 +263,7 @@ import {
     const [isReady, setIsReady] = useState(false);
   
     // ==================== State ====================
-    const [messageHistory, setMessageHistory] = useState<Record<string, unknown>>({});
+    const [messageHistory, setMessageHistory] = useState<Record<string, typeof messages>>({});
     const [conversations, setConversations] = useState(DEFAULT_CONVERSATIONS_ITEMS);
     const [curConversation, setCurConversation] = useState(DEFAULT_CONVERSATIONS_ITEMS[0].key);
   
