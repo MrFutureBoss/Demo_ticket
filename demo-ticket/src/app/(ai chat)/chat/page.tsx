@@ -156,7 +156,7 @@ import {
         background: ${token.colorBgContainer};
         font-family: AlibabaPuHuiTi, ${token.fontFamily}, sans-serif;
       `,
-      // sider 样式
+      // sider
       sider: css`
         background: ${token.colorBgLayout}80;
         width: 280px;
@@ -238,7 +238,7 @@ import {
       placeholder: css`
         padding-top: 32px;
       `,
-      // sender 样式
+      // sender
       sender: css`
         width: 100%;
         max-width: 700px;

@@ -24,7 +24,6 @@ import {
 import type { ConfigProviderProps, GetProp } from "antd";
 import { CloseOutlined } from '@ant-design/icons';
 
-
 interface ChatBoxProps {
   isOpen: boolean;
   onClose: () => void;

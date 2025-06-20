@@ -10,9 +10,9 @@ const TicketListTitle = () => {
   return (
     <div className="d-flex justify-content-between align-items-center">
       <div>Open Tickets today</div>
-      <a href="#">
+      <a href="/tickets">
         Go to table <Icons name="arrow-right" />
-      </a>
+      </a>  
     </div>
   );
 };
