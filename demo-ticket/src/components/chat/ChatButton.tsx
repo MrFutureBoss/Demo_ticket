@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import { FloatButton } from "antd";
 import { MessageOutlined } from "@ant-design/icons";
 import ChatBox from "./ChatBox";
@@ -12,7 +12,7 @@ export default function ChatButton() {
     <>
       <ChatBox isOpen={isChatOpen} onClose={() => setIsChatOpen(false)} />
       {!isChatOpen && (
-        <FloatButton 
+        <FloatButton
           icon={<MessageOutlined />}
           type="primary"
           onClick={() => setIsChatOpen(true)}
@@ -21,4 +21,4 @@ export default function ChatButton() {
       )}
     </>
   );
-} 
+}

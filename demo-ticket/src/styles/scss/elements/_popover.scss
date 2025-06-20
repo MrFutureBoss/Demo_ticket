@@ -116,3 +116,13 @@
   //   text-overflow: ellipsis;
   // }
 }
+
+.ticket-list-popover {
+  .ticket-list-content {
+    width: 20rem;
+  }
+}
+
+.ant-popover-content {
+  width: 20rem;
+}

@@ -127,25 +127,33 @@ const SideBar = memo(function SideBar() {
           )}
         </a>
         {item.isDropdown && (
-          <p className="sidebar-sub-text">List {item.children?.length}</p>
+          <div className="sidebar-dropdown-content justify-content-end">
+            <p className="action-bold-style">See more</p>
+          </div>
         )}
 
         {item.isDropdown && (
-          <div className="sidebar-dropdown-content">
-            {item.children?.map((child) => (
-              <TicketListPopOver key={child.id}>
-                {(isOpen) => (
-                  <div className={`sidebar-dropdown-item ${isOpen ? "active" : ""}`}>
-                    <div className="sidebar-item-icon">
-                      {child.icon && child.icon}
+          <div>
+            <div className="sidebar-dropdown-content">
+              {item.children?.map((child) => (
+                <TicketListPopOver key={child.id}>
+                  {(isOpen) => (
+                    <div
+                      className={`sidebar-dropdown-item ${
+                        isOpen ? "active" : ""
+                      }`}
+                    >
+                      <div className="sidebar-item-icon">
+                        {child.icon && child.icon}
+                      </div>
+                      <div className="sidebar-item-text">
+                        <p className="paragraph-bold-no-style">{child.name}</p>
+                      </div>
                     </div>
-                    <div className="sidebar-item-text">
-                      <p className="paragraph-bold-no-style">{child.name}</p>
-                    </div>
-                  </div>
-                )}
-              </TicketListPopOver>
-            ))}
+                  )}
+                </TicketListPopOver>
+              ))}
+            </div>
           </div>
         )}
       </div>
