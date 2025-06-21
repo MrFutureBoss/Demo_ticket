@@ -37,10 +37,13 @@ import { FaQuoteLeft } from "react-icons/fa";
 import { FaQuoteRight } from "react-icons/fa";
 import { IoTicketOutline } from "react-icons/io5";
 import { RiOpenaiFill } from "react-icons/ri";
+import { IoClose } from "react-icons/io5";
 
 export default function Icons({ name }: { name: string }) {
   function renderIcon() {
     switch (name) {
+      case "close":
+        return <IoClose/>;
       case "chat-ai":
         return <RiOpenaiFill />;
       case "tickets":

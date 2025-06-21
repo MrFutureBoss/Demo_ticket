@@ -1,0 +1,16 @@
+.ticket-board-content {
+  height: 100%;
+  width: 100%;
+  background-color: var(--color-white);
+}
+
+.ticket-board-header {
+  padding: 15px;
+}
+
+.ticket-board-header-title {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 0 20px;
+}

@@ -5,7 +5,8 @@ import { Ticket } from "../interfaces/ticket";
 const initialState: ModalProps = {
   ticketDetail: {} as Ticket,
   openTicketDetail: false,
-  ticketDetailLoading: false
+  ticketDetailLoading: false,
+  ticketDetailType: 'regular' as 'regular' | 'open'
 };
 
 const modalSlice = createSlice({
@@ -29,10 +30,21 @@ const modalSlice = createSlice({
         ...state,
         ticketDetailLoading: action.payload,
       };
+    },
+    setTicketDetailType: (state, action: PayloadAction<'regular' | 'open'>) => {
+      return {
+        ...state,
+        ticketDetailType: action.payload,
+      };
     }
   },
   extraReducers: () => {},
 });
 
-export const { setOpenTicketDetail, setTicketDetail, setTicketDetailLoading } = modalSlice.actions;
+export const { 
+  setOpenTicketDetail, 
+  setTicketDetail, 
+  setTicketDetailLoading,
+  setTicketDetailType 
+} = modalSlice.actions;
 export default modalSlice.reducer;

@@ -53,6 +53,11 @@ interface Ticket {
     pagination: PaginationState;
   }
   
+  interface TicketFilterParams {
+    status?: number;
+    type?: "HR" | "IT";
+  }
+  
   interface PaginationParams {
     filter?: number;
     page?: number;
@@ -79,5 +84,6 @@ interface Ticket {
     PaginationParams,
     PaginationResponse,
     TicketResponse,
+    TicketFilterParams,
   };
   

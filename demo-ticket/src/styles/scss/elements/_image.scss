@@ -9,21 +9,27 @@
 .crop-image {
   clip-path: inset(4px);
 }
-.text-avatar {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
 
-.text-avatar:nth-child(1) {
+.text-avatar.normal:nth-child(1) {
   display: flex;
   align-items: center;
   justify-content: center;
   color: var(--color-bg-white-gray);
   font-size: 35px;
 }
-.text-avatar p {
+.text-avatar.normal p {
   font-size: 16px;
+}
+
+.text-avatar.small:nth-child(1) {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-bg-white-gray);
+  font-size: 22px;
+}
+.text-avatar.small p {
+  font-size: 14px;
 }
 
 .text-avatar-with-date {

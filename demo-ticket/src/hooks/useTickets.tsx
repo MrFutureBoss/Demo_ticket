@@ -1,16 +1,16 @@
 import React from "react";
 import useSWR from "swr";
 import api from "@/utilities/api";
-import type { TicketResponse, PaginationParams } from "./interfaces/ticket";
+import type { TicketResponse, PaginationParams, TicketFilterParams } from "./interfaces/ticket";
 
-const fetcher = async (url: string, params: PaginationParams) => {
+const fetcher = async (url: string, params: PaginationParams & TicketFilterParams) => {
   const response = await api.get<TicketResponse>(url, { params });
   return response.data;
 };
 
-export const useTickets = (params: PaginationParams = {}) => {
+export const useTickets = (params: PaginationParams & TicketFilterParams = {}) => {
   const { data, error, isLoading, mutate } = useSWR(
-    ["tickets/getAllTickets", params],
+    ["tickets/getAllTickets?type=IT", params],
     ([url, params]) => fetcher(url, params),
     {
       // Tự động revalidate khi focus vào window

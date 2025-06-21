@@ -2,10 +2,11 @@
 
 import Icons from "@/components/icons/Icons";
 import SidebarMorePopOver from "@/components/pop-overs/SidebarMorePopOver";
-import React, { memo, useMemo } from "react";
+import React, { memo, useMemo, useState } from "react";
 import { usePathname } from "next/navigation";
 import TicketListPopOver from "@/components/pop-overs/TicketListPopOver";
 import Status from "@/components/icons/Status";
+import StatusCountBadge from "@/components/badges/StatusCountBadge";
 
 const listNavigation = [
   {
@@ -32,6 +33,12 @@ const listNavigation = [
       },
       {
         id: 2,
+        icon: <Status status={2} showTitle={false} />,
+        name: "In Progress",
+        path: "",
+      },
+      {
+        id: 6,
         icon: <Status status={6} showTitle={false} />,
         name: "On Hold",
         path: "",
@@ -90,8 +97,23 @@ const listNavigation = [
   },
 ];
 
-const SideBar = memo(function SideBar() {
+const SideBar = memo(() => {
   const pathname = usePathname();
+  const [openPopovers, setOpenPopovers] = useState<{ [key: number]: boolean }>({});
+
+  const handlePopoverOpenChange = (id: number, open: boolean) => {
+    if (open) {
+      setOpenPopovers(Object.keys(openPopovers).reduce((acc, key) => ({
+        ...acc,
+        [key]: parseInt(key) === id ? true : false
+      }), { [id]: true }));
+    } else {
+      setOpenPopovers(prev => ({
+        ...prev,
+        [id]: false
+      }));
+    }
+  };
 
   const isActive = useMemo(
     () => (path: string) => {
@@ -136,7 +158,13 @@ const SideBar = memo(function SideBar() {
           <div>
             <div className="sidebar-dropdown-content">
               {item.children?.map((child) => (
-                <TicketListPopOver key={child.id}>
+                <TicketListPopOver 
+                  key={child.id} 
+                  status={child.id} 
+                  title={child.name}
+                  open={openPopovers[child.id] || false}
+                  onOpenChange={(open) => handlePopoverOpenChange(child.id, open)}
+                >
                   {(isOpen) => (
                     <div
                       className={`sidebar-dropdown-item ${
@@ -149,6 +177,7 @@ const SideBar = memo(function SideBar() {
                       <div className="sidebar-item-text">
                         <p className="paragraph-bold-no-style">{child.name}</p>
                       </div>
+                      <StatusCountBadge status={child.id} />
                     </div>
                   )}
                 </TicketListPopOver>
@@ -158,7 +187,7 @@ const SideBar = memo(function SideBar() {
         )}
       </div>
     ));
-  }, [isActive]);
+  }, [pathname, openPopovers]);
 
   return (
     <div className="d-flex flex-column mt-2">
@@ -176,5 +205,7 @@ const SideBar = memo(function SideBar() {
     </div>
   );
 });
+
+SideBar.displayName = 'SideBar';
 
 export default SideBar;

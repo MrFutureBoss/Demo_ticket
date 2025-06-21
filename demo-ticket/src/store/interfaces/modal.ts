@@ -4,4 +4,5 @@ export interface ModalProps {
   ticketDetail: Ticket;
   openTicketDetail: boolean;
   ticketDetailLoading: boolean;
+  ticketDetailType: 'regular' | 'open';
 }

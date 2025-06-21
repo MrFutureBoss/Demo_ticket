@@ -1,4 +1,4 @@
-import { Modal, Splitter } from "antd";
+import { Modal, Splitter, Button } from "antd";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import type { RootState } from "@/store";
@@ -11,8 +11,6 @@ import readHTML from "@/utilities/convert/readHTML";
 import { Ticket } from "@/store/interfaces/ticket";
 import Image from "next/image";
 import Icons from "../icons/Icons";
-import TextAvatarWithDate from "../avatars/TextAvatarWithDate";
-import StarReview from "../icons/StarReview";
 
 const modalHeader = (ticket: Ticket) => {
   return (
@@ -61,33 +59,6 @@ const modalBody = (ticket: Ticket) => {
             </span>
           </div>
         </div>
-        <div className="ticket-detail-description">
-          <p className="paragraph-bold-style-2">Feedback: </p>
-          <div className="description-italic-style-3 d-flex flex-column gap-4">
-            <div className="feedback-box">
-              <div className="d-flex align-items-center justify-content-start">
-                {ticket.user_id ? (
-                  <TextAvatarWithDate
-                    employeeId={ticket.user_id}
-                    fullname={ticket.fullname}
-                    date={ticket.date}
-                  />
-                ) : (
-                  <TextAvatar employeeId={0} fullname="Not found" />
-                )}
-              </div>
-              <p>{ticket.feedback ? ticket.feedback : "No feedback"}</p>
-              <div className="rating">
-                Rating:{" "}
-                {ticket.rating ? (
-                  <StarReview score={ticket.rating} />
-                ) : (
-                  "not give yet!"
-                )}
-              </div>
-            </div>
-          </div>
-        </div>
       </Splitter.Panel>
       <Splitter.Panel
         defaultSize="40%"
@@ -110,21 +81,6 @@ const modalBody = (ticket: Ticket) => {
                 />
               ) : (
                 <TextAvatar employeeId={null} fullname="Not found" />
-              )}
-            </div>
-          </div>
-          <div className="row info-user-box">
-            <div className="col-4 d-flex align-items-center">
-              <p>🛠️ Assignee:</p>
-            </div>
-            <div className="col-8 d-flex align-items-start">
-              {ticket.handle ? (
-                <TextAvatar
-                  employeeId={ticket.handle}
-                  fullname={ticket.handler_name}
-                />
-              ) : (
-                <TextAvatar employeeId={null} fullname="Unassigned" />
               )}
             </div>
           </div>
@@ -214,7 +170,7 @@ const modalBody = (ticket: Ticket) => {
   );
 };
 
-export default function TicketDetailModal() {
+export default function OpenTicketDetailModal() {
   const dispatch = useDispatch();
   const openTicketDetail = useSelector(
     (state: RootState) => state.modal.openTicketDetail
@@ -235,8 +191,14 @@ export default function TicketDetailModal() {
       onOk={() => dispatch(setOpenTicketDetail(false))}
       onCancel={() => dispatch(setOpenTicketDetail(false))}
       loading={ticketDetailLoading}
-      footer={null}
       zIndex={1100}
+      footer={
+        <div className="d-flex justify-content-end">
+          <Button type="primary" onClick={() => {}}>
+            Take
+          </Button>
+        </div>
+      }
     >
       {modalBody(ticketDetail)}
     </Modal>

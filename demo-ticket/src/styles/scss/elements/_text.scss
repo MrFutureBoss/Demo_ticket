@@ -60,6 +60,18 @@
   text-decoration: underline;
 }
 
+
+.time-bold-style {
+  margin: 0;
+  font-weight: 600;
+  color: var(--color-link-active);
+}
+
+.time-bold-style:hover {
+  cursor: pointer;
+  text-decoration: none;
+}
+
 .description-normal-style {
   margin: 0;
   font-weight: 400;
