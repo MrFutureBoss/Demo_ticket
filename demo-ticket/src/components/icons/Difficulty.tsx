@@ -30,7 +30,7 @@ export default function Difficulty({
     }
   }
 
-  return (
+  return difficulty ? (
     <Tooltip title={item.title}>
       <div className="d-flex gap-2 align-items-center">
         <Image
@@ -45,5 +45,7 @@ export default function Difficulty({
         </p>
       </div>
     </Tooltip>
+  ) : (
+    <></>
   );
 }

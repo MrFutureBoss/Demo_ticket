@@ -4,13 +4,15 @@ import {
   getTicketByIdController,
   updateTicketByIdController,
   patchTicketByIdController,
-} from "../controllers/ticekt/ticketController.js";
+  getAllTicketController,
+} from "../controllers/ticket/ticketController.js";
 
 const ticketRouter = express.Router();
 
 ticketRouter.post("/", createNewTicketController);
 ticketRouter.get("/getTicket/:id", getTicketByIdController);
+ticketRouter.get("/getAllTickets", getAllTicketController);
 ticketRouter.put("/:id", updateTicketByIdController);
-ticketRouter.patch("/patchTicket/:id", patchTicketByIdController);
+ticketRouter.patch("/:id", patchTicketByIdController);
 
-export default ticketRouter; 
+export default ticketRouter;

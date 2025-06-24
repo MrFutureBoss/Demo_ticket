@@ -80,7 +80,7 @@ const Row: React.FC<RowProps> = (props) => {
     ...props.style,
     transform: CSS.Translate.toString(transform),
     transition,
-    ...(isDragging ? { position: "relative", zIndex: 9999 } : {}),
+    ...(isDragging ? { position: "relative", zIndex: 100 } : {}),
   };
 
   const contextValue = useMemo<RowContextProps>(

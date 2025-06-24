@@ -12,6 +12,8 @@ export default function Status({ status, showTitle = true }: StatusProps) {
 
   function renderStatus(status: number) {
     switch (status) {
+      case 0:
+        return { title: "To Do", url: "/assets/images/kaban.svg" };
       case 1:
         return { title: "Open", url: "/assets/images/open.svg" };
       case 2:

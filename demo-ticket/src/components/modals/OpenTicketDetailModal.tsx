@@ -58,6 +58,11 @@ const modalBody = (ticket: Ticket) => {
               <Icons name="quote-right" />
             </span>
           </div>
+          <div className="d-flex justify-content-start mt-4">
+            <Button size="large" color="green" variant="solid" onClick={() => {}}>
+              <Icons name="create" /> Assign this ticket
+            </Button>
+          </div>
         </div>
       </Splitter.Panel>
       <Splitter.Panel
@@ -191,14 +196,8 @@ export default function OpenTicketDetailModal() {
       onOk={() => dispatch(setOpenTicketDetail(false))}
       onCancel={() => dispatch(setOpenTicketDetail(false))}
       loading={ticketDetailLoading}
+      footer={null}
       zIndex={1100}
-      footer={
-        <div className="d-flex justify-content-end">
-          <Button type="primary" onClick={() => {}}>
-            Take
-          </Button>
-        </div>
-      }
     >
       {modalBody(ticketDetail)}
     </Modal>
