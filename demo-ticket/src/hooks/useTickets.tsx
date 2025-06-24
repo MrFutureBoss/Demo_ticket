@@ -1,7 +1,6 @@
 import React from "react";
 import useSWR from "swr";
 import api from "@/utilities/api";
-import api from "@/utilities/api";
 import type { TicketResponse, PaginationParams, TicketFilterParams } from "./interfaces/ticket";
 
 const fetcher = async (url: string, params: PaginationParams & TicketFilterParams) => {
