@@ -3,7 +3,7 @@ import Image from "next/image";
 import React from "react";
 
 interface DifficultyProps {
-  difficulty: number;
+  difficulty: number | null;
   showTitle?: boolean;
 }
 
@@ -13,7 +13,7 @@ export default function Difficulty({
 }: DifficultyProps) {
   const item = renderDifficulty(difficulty);
 
-  function renderDifficulty(difficulty: number) {
+  function renderDifficulty(difficulty: number | null) {
     switch (difficulty) {
       case 1:
         return { title: "Lowest", url: "/assets/images/low.svg" };
